@@ -10,29 +10,14 @@
       ../../hardware-configuration.nix
     ];
 
-  # Bumblebee!
-  #hardware.bumblebee.enable = true;
-  #hardware.bumblebee.connectDisplay = true;
-
+  boot.kernelModules = [ "kvm-amd" ];
   hardware.bluetooth.enable = true;
 
   networking.hostName = "wyvern";
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  #programs.bash.enableCompletion = true;
-  #programs.mtr.enable = true;
-  #programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-
-  # Enable the OpenSSH daemon.
-  #services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  #networking.firewall.allowedTCPPorts = [ 5900 5901 5902 5903];
-  #networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
+  #networking.firewall.allowedTCPPorts = [ 61209 ];
+  #networking.firewall.allowedUDPPorts = [ ];
   #networking.firewall.enable = false;
-  #networking.networkmanager.enable = true;
-
+  #networking.networkmanager.enable = true; # wifi
 
   services = {
     # Enable the X11 windowing system.
@@ -51,4 +36,9 @@
 #  };
 
   virtualisation.docker.enable = true;
+
+
+  #environment.systemPackages = [ virtualboxHardened ];
+  virtualisation.virtualbox.host.enable = true;
+  users.extraUsers.john.extraGroups = ["vboxusers"];
 }
