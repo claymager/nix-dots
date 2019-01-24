@@ -13,7 +13,7 @@
 
   networking.extraHosts = ''
     192.168.1.16  frey
-    192.168.1.18  wyvern
+    192.168.1.29  wyvern
     '';
 
   hardware.pulseaudio = {
