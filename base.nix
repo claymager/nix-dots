@@ -47,6 +47,7 @@
           feh
           scrot
           spotify
+          playerctl
           pavucontrol
         ]
       else
