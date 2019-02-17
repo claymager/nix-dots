@@ -40,14 +40,20 @@
     guiPackages =
       if config.services.xserver.enable then
         with pkgs; [
+          (conky.override {
+            nvidiaSupport=true;
+            pulseSupport=true;
+          })
           qutebrowser
           google-chrome
           slack
-          termite
+          kitty
           feh
           scrot
           spotify
+          playerctl
           pavucontrol
+          xkb_switch
         ]
       else
         [ ];
@@ -74,9 +80,12 @@
 
   fonts.enableFontDir = true;
   fonts.fonts = with pkgs; [
-    fantasque-sans-mono
+    #fantasque-sans-mono # installed imperatively for alpha version
+    fira-code
     corefonts
     terminus_font
+    font-awesome_5
+    hasklig
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -104,6 +113,9 @@
     to = "todo.sh";
     neo = "nvim";
     view = "nvim -R";
+    gcal = "google-chrome-stable --kiosk calendar.google.com";
+    gmail = "google-chrome-stable --kiosk mail.google.com";
+    netflix = "google-chrome-stable --kiosk netflix.com";
   };
 
   programs.fish = {
