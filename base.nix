@@ -224,6 +224,7 @@
       enable = true;
       latitude = "41.881";
       longitude = "-87.623";
+      temperature.night = 2500;
     };
   };
 
