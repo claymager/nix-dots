@@ -113,9 +113,6 @@
     to = "todo.sh";
     neo = "nvim";
     view = "nvim -R";
-    gcal = "google-chrome-stable --kiosk calendar.google.com";
-    gmail = "google-chrome-stable --kiosk mail.google.com";
-    netflix = "google-chrome-stable --kiosk netflix.com";
   };
 
   programs.fish = {
@@ -244,5 +241,6 @@
   # servers. You should change this only after NixOS release notes say you
   # should.
   system.stateVersion = "18.09"; # Did you read the comment?
+  system.fsPackages = [ pkgs.exfat ];
 
 }
