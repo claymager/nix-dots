@@ -71,6 +71,7 @@
       pass
       xclip
       gnupg
+      dropbox-cli
 
       pciutils
       file
@@ -88,21 +89,10 @@
     hasklig
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  #programs.bash.enableCompletion = true;
-  #programs.mtr.enable = true;
-  #programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-
-  # Enable the OpenSSH daemon.
-  #services.openssh.enable = true;
-
   # Open ports in the firewall.
-  #networking.firewall.allowedTCPPorts = [ 5900 5901 5902 5903];
-  #networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  #networking.firewall.enable = false;
-  #networking.networkmanager.enable = true;
+  networking.firewall.allowedTCPPorts = [ 17500 ];
+  networking.firewall.allowedUDPPorts = [ 17500 ];
+   # 17500 : Dropbox
 
   environment.shellAliases = {
     l = "ls -XlhGgo --color=auto";
@@ -237,6 +227,23 @@
     uid = 1000;
   };
 
+  systemd.user.services.dropbox = {
+    description = "Dropbox";
+    wantedBy = [ "graphical-session.target" ];
+    environment = {
+      QT_PLUGIN_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtPluginPrefix;
+      QML2_IMPORT_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtQmlPrefix;
+    };
+    serviceConfig = {
+      ExecStart = "${pkgs.dropbox.out}/bin/dropbox start";
+      ExecReload = "${pkgs.coreutils.out}/bin/kill -HUP $MAINPID";
+      KillMode = "control-group"; # upstream recommends process
+      Restart = "on-failure";
+      PrivateTmp = true;
+      ProtectSystem = "full";
+      Nice = 10;
+    };
+  };
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
