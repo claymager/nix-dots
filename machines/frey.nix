@@ -40,7 +40,6 @@
   #networking.firewall.enable = false;
   networking.networkmanager.enable = true;
 
-
   services = {
     # Enable the X11 windowing system.
     xserver.enable = true;
@@ -48,9 +47,13 @@
     xserver.libinput.enable = true;
 
     mongodb.enable = true;
-    postgresql.enable = true;
+    postgresql = {
+      enable = true;
+      package = pkgs.postgresql100;
+      enableTCPIP = true;
+    };
     #printing.enable = true;
-    sshd.enable = true;
+    sshd.enable = true; # automatically opens port 22
   };
 
   systemd.services.nvidia-control-devices = {
