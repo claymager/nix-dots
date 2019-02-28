@@ -10,19 +10,39 @@
       ../../hardware-configuration.nix
     ];
 
-  boot.kernelModules = [ "i2c-dev" "btusb" ];
+  boot.kernelModules = [
+    "i2c-dev" # i2c bus utility for periferals
+    "nct6775" # hardware sensors
+  ];
+
   hardware.bluetooth.enable = true;
 
-  networking.hostName = "wyvern";
-  #networking.firewall.allowedTCPPorts = [ 27017 5900 ];
+  networking.hostName = "tattletale";
+  networking.firewall.allowedTCPPorts = [
+    22      # OpenSSH
+    5432    # Postgres
+    27017   # MongoDB
+  ];
 
   services = {
     # Enable the X11 windowing system.
     xserver.enable = true;
     xserver.videoDrivers = ["nvidia" ];
 
-    #mongodb.enable = true;
-    #postgresql.enable = true;
+    mongodb = {
+      enable = true;
+      bind_ip = "0.0.0.0";
+    };
+    postgresql = {
+      enable = true;
+      package = pkgs.postgresql100;
+      enableTCPIP = true;
+      authentication = pkgs.lib.mkOverride 10 ''
+        local all all trust
+        host all all ::1/128 trust
+        host all all 192.168.1.1/24 md5
+      '';
+    };
     #printing.enable = true;
     openssh = {
       enable = true;

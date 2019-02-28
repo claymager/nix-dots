@@ -40,15 +40,20 @@
     guiPackages =
       if config.services.xserver.enable then
         with pkgs; [
+          (conky.override {
+            nvidiaSupport=true;
+            pulseSupport=true;
+          })
           qutebrowser
           google-chrome
           slack
-          termite
+          kitty
           feh
           scrot
           spotify
           playerctl
           pavucontrol
+          xkb_switch
         ]
       else
         [ ];
@@ -75,9 +80,12 @@
 
   fonts.enableFontDir = true;
   fonts.fonts = with pkgs; [
-    fantasque-sans-mono
+    #fantasque-sans-mono # installed imperatively for alpha version
+    fira-code
     corefonts
     terminus_font
+    font-awesome_5
+    hasklig
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -233,5 +241,6 @@
   # servers. You should change this only after NixOS release notes say you
   # should.
   system.stateVersion = "18.09"; # Did you read the comment?
+  system.fsPackages = [ pkgs.exfat ];
 
 }
