@@ -13,7 +13,7 @@
 
   networking.extraHosts = ''
     192.168.1.16  frey
-    192.168.1.29  wyvern
+    192.168.1.29  tattletale
     '';
 
   hardware.pulseaudio = {
@@ -47,6 +47,7 @@
           qutebrowser
           google-chrome
           slack
+          discord
           kitty
           feh
           scrot
@@ -72,6 +73,7 @@
       xclip
       gnupg
       dropbox-cli
+      todo-txt-cli
 
       pciutils
       file
