@@ -138,6 +138,11 @@
 
         set last_status $status
 
+        if test -n "$SSH_CLIENT"
+          set_color yellow
+          printf (hostname):
+        end
+
         set_color $fish_color_cwd
         printf '%s' (prompt_pwd)
         set_color normal
