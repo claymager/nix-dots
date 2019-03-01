@@ -221,7 +221,7 @@
       enable = true;
       latitude = "41.881";
       longitude = "-87.623";
-      temperature.night = 2500;
+      temperature.night = 3000;
     };
   };
 
@@ -240,6 +240,7 @@
     environment = {
       QT_PLUGIN_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtPluginPrefix;
       QML2_IMPORT_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtQmlPrefix;
+      HOME = "%h/.dropbox";
     };
     serviceConfig = {
       ExecStart = "${pkgs.dropbox.out}/bin/dropbox start";
