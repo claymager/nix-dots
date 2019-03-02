@@ -60,7 +60,6 @@
         [ ];
     in with pkgs; [
       tree
-      pavucontrol
       wget
       htop
       mongodb-tools
@@ -68,7 +67,9 @@
       neovim
       w3m
       git
+      bat
       alsaUtils
+      pavucontrol
       pass
       xclip
       gnupg
