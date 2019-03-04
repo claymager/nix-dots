@@ -12,8 +12,10 @@
   hardware.bluetooth.enable = true;
 
   networking.extraHosts = ''
-    192.168.1.16  frey
-    192.168.1.29  tattletale
+    2601:40f:600:99b::872a     frey_wlan
+    2601:40f:600:99b::c340     frey
+    2601:40f:600:99b::d815     lisa
+    24.128.157.105      tattletale
     '';
 
   hardware.pulseaudio = {
@@ -36,51 +38,55 @@
     allowUnfree = true;
   };
 
-  environment.systemPackages = let
-    guiPackages =
-      if config.services.xserver.enable then
-        with pkgs; [
-          (conky.override {
-            nvidiaSupport=true;
-            pulseSupport=true;
-          })
-          qutebrowser
-          google-chrome
-          slack
-          discord
-          kitty
-          feh
-          scrot
-          spotify
-          playerctl
-          pavucontrol
-          xkb_switch
-        ]
-      else
-        [ ];
-    in with pkgs; [
-      tree
-      wget
-      htop
-      mongodb-tools
-      lm_sensors
-      neovim
-      w3m
-      git
-      bat
-      alsaUtils
-      pavucontrol
-      pass
-      xclip
-      gnupg
-      dropbox-cli
-      todo-txt-cli
+  environment = {
+    variables = {
+      EDITOR = "nvim";
+    };
+    systemPackages = let
+      guiPackages =
+        if config.services.xserver.enable then
+          with pkgs; [
+            (conky.override { nvidiaSupport=true;
+              pulseSupport=true;
+            })
+            qutebrowser
+            google-chrome
+            slack
+            discord
+            kitty
+            feh
+            scrot
+            spotify
+            playerctl
+            pavucontrol
+            xkb_switch
+          ]
+        else
+          [ ];
+      in with pkgs; [
+        tree
+        wget
+        htop
+        mongodb-tools
+        lm_sensors
+        neovim
+        w3m
+        git
+        bat
+        alsaUtils
+        pavucontrol
+        pass
+        xclip
+        gnupg
+        dropbox-cli
+        todo-txt-cli
 
-      pciutils
-      file
+        pciutils
+        file
 
-      #cudatoolkit
-    ] ++ guiPackages;
+        #cudatoolkit
+      ] ++ guiPackages;
+  };
 
   fonts.enableFontDir = true;
   fonts.fonts = with pkgs; [
@@ -103,9 +109,9 @@
     mv = "mv -i";
     rm = "rm -I";
     vi = "nvim";
-    to = "todo.sh";
     neo = "nvim";
     view = "nvim -R";
+    to = "todo.sh -P+";
   };
 
   programs.fish = {

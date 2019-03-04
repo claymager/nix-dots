@@ -40,6 +40,7 @@
       authentication = pkgs.lib.mkOverride 10 ''
         local all all trust
         host all all ::1/128 trust
+        host all all 2601:40f:600:99b::/64 md5
         host all all 192.168.1.1/24 md5
       '';
     };
