@@ -6,6 +6,10 @@
 
 {
   # Use the systemd-boot EFI boot loader.
+  imports = [
+    ./shell.nix
+  ];
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -39,9 +43,6 @@
   };
 
   environment = {
-    variables = {
-      EDITOR = "nvim";
-    };
     systemPackages = let
       guiPackages =
         if config.services.xserver.enable then
@@ -103,86 +104,6 @@
   networking.firewall.allowedTCPPorts = [ 17500 ];
   networking.firewall.allowedUDPPorts = [ 17500 ];
    # 17500 : Dropbox
-
-  environment.shellAliases = {
-    l = "ls -XlhGgo --color=auto";
-    t = "tree --filelimit 30 -CL 3";
-    vi = "nvim";
-    neo = "nvim";
-    to = "todo.sh";
-    nix-shell = "nix-shell --command 'exec fish'";
-  };
-
-  programs.fish = {
-    enable = true;
-    promptInit = ''
-      set normal (set_color normal)
-      set magenta (set_color magenta)
-      set yellow (set_color yellow)
-      set green (set_color green)
-      set red (set_color red)
-      set gray (set_color -o black)
-
-      # Fish git prompt
-      set __fish_git_prompt_showdirtystate 'yes'
-      set __fish_git_prompt_showstashstate 'yes'
-      set __fish_git_prompt_showuntrackedfiles 'yes'
-      set __fish_git_prompt_showupstream 'yes'
-      set __fish_git_prompt_color_branch yellow
-      set __fish_git_prompt_color_upstream_ahead green
-      set __fish_git_prompt_color_upstream_behind red
-
-      # Status Chars
-      set __fish_git_prompt_char_dirtystate 'M'
-      set __fish_git_prompt_char_stagedstate '→'
-      set __fish_git_prompt_char_untrackedfiles '?'
-      set __fish_git_prompt_char_stashstate '«'
-      set __fish_git_prompt_char_upstream_ahead '+'
-      set __fish_git_prompt_char_upstream_behind '-'
-
-      function fish_prompt
-
-        set last_status $status
-
-        if test -n "$SSH_CLIENT"
-          set_color yellow
-          printf (hostname):
-        end
-
-        set_color $fish_color_cwd
-        printf '%s' (prompt_pwd)
-        set_color normal
-
-        printf '%s ' (__fish_git_prompt)
-
-        if test -n "$IN_NIX_SHELL"
-          set_color 0ff
-          printf "❄ "
-        end
-
-        set_color normal
-      end
-    '';
-
-    shellInit = ''
-      function haskellEnv
-        nix-shell -p "haskellPackages.ghcWithPackages (pkgs: with pkgs; [ $argv ])"
-      end
-
-      function pythonEnv --description 'start a nix-shell with the given python packages' --argument pythonVersion
-        if set -q argv[2]
-          set argv $argv[2..-1]
-        end
-        for el in $argv
-          set ppkgs $ppkgs "python"$pythonVersion"Packages.$el"
-        end
-        nix-shell -p $ppkgs
-      end
-
-      set fish_greeting ""
-
-      '';
-  };
 
   services = {
     xserver = {
