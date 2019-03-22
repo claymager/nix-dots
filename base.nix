@@ -184,18 +184,6 @@
       '';
   };
 
-  programs.tmux = {
-    enable = true;
-    clock24 = true;
-    keyMode = "vi";
-    customPaneNavigationAndResize = true;
-    resizeAmount = 20;
-    shortcut = "d";
-    extraTmuxConf = ''
-    set -sg escape-time 10
-    '';
-  };
-
   services = {
     xserver = {
       # keyboard
