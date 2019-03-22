@@ -13,13 +13,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  hardware.bluetooth.enable = true;
-
   networking.extraHosts = ''
     2601:40f:600:99b::872a     frey_wlan
     2601:40f:600:99b::c340     frey
     2601:40f:600:99b::d815     lisa
-    24.128.157.105      tattletale
+    24.128.157.105       tattletale
     '';
 
   hardware.pulseaudio = {
@@ -27,66 +25,56 @@
     package = pkgs.pulseaudioFull;
   };
 
-  # Select internationalisation properties.
   i18n = {
     consoleKeyMap = "us";
     defaultLocale = "en_US.UTF-8";
   };
 
-  # Set your time zone.
   time.timeZone = "America/Detroit";
 
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
   nixpkgs.config = {
     allowUnfree = true;
   };
 
   environment = {
-    systemPackages = let
-      guiPackages =
-        if config.services.xserver.enable then
-          with pkgs; [
-            (conky.override { nvidiaSupport=true;
+    systemPackages = with pkgs; let
+      guiPackages = if config.services.xserver.enable then
+          [ (conky.override {
+              nvidiaSupport=true;
               pulseSupport=true;
             })
-            qutebrowser
-            google-chrome
-            vlc
-            slack
             discord
-            kitty
             feh
-            scrot
-            spotify
-            playerctl
+            google-chrome
+            kitty
             pavucontrol
+            playerctl
+            qutebrowser
+            scrot
+            slack
+            spotify
+            vlc
+            xclip
             xkb_switch
-          ]
-        else
-          [ ];
-      in with pkgs; [
+          ] else [ ];
+      in [
+        alsaUtils
+        bat
+        #cudatoolkit
+        dropbox-cli
+        file
+        git
+        gnupg
+        htop
+        lm_sensors
+        mongodb-tools
+        neovim
+        pass
+        pavucontrol
+        pciutils
+        todo-txt-cli
         tree
         wget
-        htop
-        mongodb-tools
-        lm_sensors
-        neovim
-        w3m
-        git
-        bat
-        alsaUtils
-        pavucontrol
-        pass
-        xclip
-        gnupg
-        dropbox-cli
-        todo-txt-cli
-
-        pciutils
-        file
-
-        #cudatoolkit
       ] ++ guiPackages;
   };
 
@@ -100,10 +88,11 @@
     hasklig
   ];
 
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 17500 ];
-  networking.firewall.allowedUDPPorts = [ 17500 ];
-   # 17500 : Dropbox
+  networking.firewall = {
+    allowedTCPPorts = [ 17500 ];
+    allowedUDPPorts = [ 17500 ];
+    # 17500 : Dropbox
+  };
 
   services = {
     xserver = {
@@ -112,7 +101,6 @@
       xkbVariant = "altgr-intl";
       xkbOptions = "nodeadkeys";
 
-      # window manager
       windowManager = {
         xmonad.enable = true;
         xmonad.enableContribAndExtras = true;
@@ -140,7 +128,6 @@
     };
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.john = {
     isNormalUser = true;
     home = "/home/john";
@@ -167,6 +154,7 @@
       Nice = 10;
     };
   };
+
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you

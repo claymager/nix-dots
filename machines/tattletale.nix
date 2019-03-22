@@ -17,15 +17,16 @@
 
   hardware.bluetooth.enable = true;
 
-  networking.hostName = "tattletale";
-  networking.firewall.allowedTCPPorts = [
-    22      # OpenSSH
-    5432    # Postgres
-    27017   # MongoDB
-  ];
+  networking = {
+    hostName = "tattletale";
+    firewall.allowedTCPPorts = [
+      22      # OpenSSH
+      5432    # Postgres
+      27017   # MongoDB
+    ];
+  };
 
   services = {
-    # Enable the X11 windowing system.
     xserver.enable = true;
     xserver.videoDrivers = ["nvidia" ];
 
@@ -33,6 +34,7 @@
       enable = true;
       bind_ip = "0.0.0.0";
     };
+
     postgresql = {
       enable = true;
       package = pkgs.postgresql100;
@@ -44,7 +46,7 @@
         host all all 192.168.1.1/24 md5
       '';
     };
-    #printing.enable = true;
+
     openssh = {
       enable = true;
       permitRootLogin = "no";
@@ -53,5 +55,4 @@
   };
 
   users.users.john.openssh.authorizedKeys.keyFiles = [ "/home/john/.ssh/authorized_keys" ];
-  #virtualisation.docker.enable = true;
 }
