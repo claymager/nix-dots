@@ -110,6 +110,7 @@
     vi = "nvim";
     neo = "nvim";
     to = "todo.sh";
+    nix-shell = "nix-shell --command 'exec fish'";
   };
 
   programs.fish = {
