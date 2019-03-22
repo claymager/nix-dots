@@ -107,12 +107,9 @@
   environment.shellAliases = {
     l = "ls -XlhGgo --color=auto";
     t = "tree --filelimit 30 -CL 3";
-    mv = "mv -i";
-    rm = "rm -I";
     vi = "nvim";
     neo = "nvim";
-    view = "nvim -R";
-    to = "todo.sh -P+";
+    to = "todo.sh";
   };
 
   programs.fish = {
