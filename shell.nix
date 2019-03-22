@@ -7,7 +7,7 @@
     };
     shellAliases = {
       l = "ls -XlhGgo --color=auto";
-      t = "tree --filelimit 30 -CL 3";
+      t = "tree --filelimit 30 -ClL 3";
       vi = "nvim";
       neo = "nvim";
       to = "todo.sh";
@@ -75,13 +75,20 @@
         if set -q argv[2]
           set argv $argv[2..-1]
         end
-        for el in $argv
+        for el in $argv ipython
           set ppkgs $ppkgs "python"$pythonVersion"Packages.$el"
         end
         nix-shell -p $ppkgs
       end
 
+      function nixos-rebuild
+        sudo nixos-rebuild $argv
+        unlink result
+      end
+
       set fish_greeting ""
+      set -xg BAT_THEME "Dracula"
+      set -xg NIX_PATH userpkgs=$HOME/nixpkgs:$NIX_PATH
 
       '';
   };
