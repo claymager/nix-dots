@@ -51,6 +51,7 @@
             })
             qutebrowser
             google-chrome
+            vlc
             slack
             discord
             kitty
