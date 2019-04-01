@@ -7,17 +7,17 @@
 {
   # Use the systemd-boot EFI boot loader.
   imports = [
-    ./shell.nix
-    ./pia-system.nix
+    ./fish
+    ./pia
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.extraHosts = ''
-    2601:40f:600:99b::872a     frey_wlan
-    2601:40f:600:99b::c340     frey
-    2601:40f:600:99b::d815     lisa
+    2601:40f:600:99b::83e8     frey_wlan
+    2601:40f:600:99b::8308     frey
+    2601:40f:600:99b::6250     lisa
     24.128.157.105       tattletale
     '';
 

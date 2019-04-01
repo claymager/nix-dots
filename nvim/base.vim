@@ -50,7 +50,9 @@ let g:syntastic_check_on_wq              = 1
 
 nnoremap ZX ZQ
 nnoremap <leader>t :Tab /=
+vnoremap <leader>t :Tab /=
 nnoremap <leader>g :Tab /\s\ze\S
+vnoremap <leader>g :Tab /\s\ze\S
 
 let g:SimpylFold_docstring_preview=1
 
