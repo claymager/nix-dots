@@ -8,6 +8,7 @@
   # Use the systemd-boot EFI boot loader.
   imports = [
     ./shell.nix
+    ./pia-system.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
