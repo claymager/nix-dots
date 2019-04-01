@@ -39,6 +39,7 @@
 
   environment = {
     systemPackages = with pkgs; let
+      myNeovim = import ./nvim;
       guiPackages = if config.services.xserver.enable then
           [ (conky.override {
               nvidiaSupport=true;
@@ -69,7 +70,7 @@
         htop
         lm_sensors
         mongodb-tools
-        neovim
+        myNeovim
         pass
         pavucontrol
         pciutils

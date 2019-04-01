@@ -8,7 +8,6 @@
     shellAliases = {
       l = "ls -XlhGgo --color=auto";
       t = "tree --filelimit 30 -ClL 3";
-      vi = "nvim";
       neo = "nvim";
       to = "todo.sh";
       nix-shell = "nix-shell --command \"exec fish\"";
@@ -89,7 +88,6 @@
       set fish_greeting ""
       set -xg BAT_THEME "Dracula"
       set -xg NIX_PATH userpkgs=$HOME/nixpkgs:$NIX_PATH
-
       '';
   };
 }
