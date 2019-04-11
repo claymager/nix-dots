@@ -32,6 +32,7 @@ function fish_prompt
   end
 
   set_color $fish_color_cwd
+  if test $USER = root; set_color red; end
   printf '%s' (prompt_pwd)
   set_color normal
 

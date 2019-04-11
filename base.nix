@@ -71,6 +71,8 @@
         lm_sensors
         mongodb-tools
         myNeovim
+        neovim-remote
+        texlive.combined.scheme-full
         pass
         pavucontrol
         pciutils

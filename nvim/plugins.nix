@@ -34,4 +34,28 @@ in {
       sha256 = "1fmg2c40x22bxc40a4i7acvf6h1hw0ws39kpkn77p1kfhgiaxqwn";
     };
   };
+  "vim-textobj-python" = buildVimPlugin {
+    name = "vim-textobj-python";
+    src = fetchgit {
+      url = "https://github.com/bps/vim-textobj-python";
+      rev = "585c76d58f1a9c458c87471b072c9ad9eb159ae2"; 
+      sha256 = "1jk0vf5v6l0sf9akgfy6bhfa8rmbvb413aam6zx5nc1ddpzb0ryy";
+		};
+	};
+  "vim-textobj-user" = buildVimPlugin {
+    name = "vim-textobj-user";
+    src = fetchgit {
+      url = "https://github.com/kana/vim-textobj-user";
+      rev = "074ce2575543f790290b189860597a3dcac1f79d";
+      sha256 = "15wnqkxjjksgn8a7d3lkbf8d97r4w159bajrcf1adpxw8hhli1vc";
+		};
+	};
+  "vim-textobj-indent" = buildVimPlugin {
+    name = "vim-textobj-indent";
+    src = fetchgit {
+      url = "https://github.com/michaeljsmith/vim-indent-object";
+      rev = "5c5b24c959478929b54a9e831a8e2e651a465965";
+      sha256 = "1kmwnz0jxjkvfzy06r7r73pcxfcyjp8p8m2d6qrhjfvzidgfhw19";
+		};
+	};
 }

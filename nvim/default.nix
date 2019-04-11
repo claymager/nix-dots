@@ -18,6 +18,7 @@ in
       vam.pluginDictionaries = [
         { names = [
             "LanguageClient-neovim"
+            "Rename"
             "SimpylFold"
             "Syntastic"
             "ctrlp"
@@ -25,7 +26,6 @@ in
             "elm-vim"
             "flake8-vim"
             "fugitive"
-            "nerdcommenter"
             "nerdtree"
             "quick-scope"
             "rhubarb"
@@ -33,11 +33,17 @@ in
             "ultisnips"
             "vim-airline"
             "vim-airline-themes"
+            "vim-commentary"
             "vim-fish"
             "vim-nix"
             "vim-pandoc"
             "vim-pandoc-syntax"
             "vim-snippets"
+            "vim-surround"
+            "vim-textobj-user"
+            "vim-textobj-indent"
+            "vim-textobj-python"
+            "vimtex"
             "youcompleteme"
           ];
         }
