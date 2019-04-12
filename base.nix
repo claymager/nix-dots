@@ -9,17 +9,11 @@
   imports = [
     ./fish
     ./pia
+    ./private.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.extraHosts = ''
-    2601:40f:600:99b::83e8     frey_wlan
-    2601:40f:600:99b::8308     frey
-    2601:40f:600:99b::6250     lisa
-    24.128.157.105       tattletale
-    '';
 
   hardware.pulseaudio = {
     enable = true;
