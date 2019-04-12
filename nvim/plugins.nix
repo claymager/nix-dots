@@ -6,10 +6,11 @@ in {
   "dracula-theme" = buildVimPlugin {
     name = "dracula-theme";
     src = fetchgit {
-      url = "https://github.com/dracula/vim/archive/v1.5.0.tar.gz";
-      sha256 = "1vnhkfihxg7jqxvwvxidlyfdz5l5lfwbwm0dw73mxiwxwd92ahid";
-		};
-	};
+      url= "https://github.com/dracula/vim";
+      rev= "9b856347b905dc616baf02b48d7631bc3084726e";
+      sha256= "0w9aj42hb8x7601gbgf0ggs7p3sm5wrv23bnvrjgdlf3mapg6dwy";
+    };
+  };
   "vim-fish" = buildVimPlugin {
     name = "vim-fish";
     src = fetchgit {
