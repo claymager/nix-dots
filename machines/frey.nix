@@ -37,7 +37,7 @@
     mongodb.enable = true;
     postgresql = {
       enable = true;
-      package = pkgs.postgresql100;
+      package = pkgs.postgresql_10;
       enableTCPIP = true;
     };
 
