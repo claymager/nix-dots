@@ -13,41 +13,52 @@ in
     configure = {
       customRC = ''
         ${base}
+        ${plug}
         ${private}
         '';
       vam.knownPlugins = pkgs.vimPlugins // plugins;
       vam.pluginDictionaries = [
+        # Universal plugins
         { names = [
-            "LanguageClient-neovim"
-            "Rename"
-            "SimpylFold"
-            "Syntastic"
-            "ctrlp"
-            "dracula-theme"
-            "elm-vim"
-            "flake8-vim"
-            "fugitive"
-            "nerdtree"
-            "quick-scope"
-            "rhubarb"
-            "tabular"
-            "ultisnips"
-            "vim-airline"
-            "vim-airline-themes"
-            "vim-commentary"
-            "vim-fish"
-            "vim-nix"
-            "vim-pandoc"
-            "vim-pandoc-syntax"
-            "vim-snippets"
-            "vim-surround"
-            "vim-textobj-user"
-            "vim-textobj-indent"
-            "vim-textobj-python"
-            "vimtex"
-            "youcompleteme"
-          ];
-        }
+          # Style
+          "dracula-theme"
+          "vim-airline"
+          "vim-airline-themes"
+
+          # File navigation
+          "ctrlp"
+          "nerdtree"
+          "fugitive"
+          "rhubarb"
+          "vim-gitgutter"
+
+          # Text navigation
+          "quick-scope"
+          "vim-surround"
+          "vim-textobj-indent"
+          "vim-textobj-user"
+          "tabular"
+
+          # IDE
+          "Syntastic"
+          "LanguageClient-neovim"
+          "vim-commentary"
+
+          # Code completion
+          "ultisnips"
+          "vim-snippets"
+          "youcompleteme"
+
+          # Filetypes
+          "SimpylFold"
+          "elm-vim"
+          "vim-fish"
+          "vim-nix"
+          "vim-pandoc"
+          "vim-pandoc-syntax"
+          "vim-textobj-python"
+          "vimtex"
+        ]; }
       ];
     };
   }

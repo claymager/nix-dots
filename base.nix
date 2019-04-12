@@ -34,6 +34,14 @@
   environment = {
     systemPackages = with pkgs; let
       myNeovim = import ./nvim;
+      nvimPkgs = [
+        myNeovim
+        neovim-remote
+        texlive.combined.scheme-full
+        (python3.withPackages(ps: [
+          ps.python-language-server
+          ps.pyls-mypy ps.pyls-isort ps.pyls-black
+      ]))];
       guiPackages = if config.services.xserver.enable then
           [ (conky.override {
               nvidiaSupport=true;
@@ -63,16 +71,12 @@
         htop
         lm_sensors
         mongodb-tools
-        myNeovim
-        neovim-remote
-        texlive.combined.scheme-full
         pass
-        pavucontrol
         pciutils
         todo-txt-cli
         tree
         wget
-      ] ++ guiPackages;
+      ] ++ nvimPkgs ++ guiPackages;
   };
 
   fonts.enableFontDir = true;
