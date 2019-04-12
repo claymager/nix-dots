@@ -3,7 +3,8 @@ with import <nixpkgs> {};
 let
   plugins = pkgs.callPackage ./plugins.nix {};
   base = builtins.readFile ./base.vim;
-  private = builtins.readFile ./private.vim;
+  plug = builtins.readFile ./plugins.vim;
+  private = builtins.readFile ../private/private.vim;
 
 in
   neovim.override {
