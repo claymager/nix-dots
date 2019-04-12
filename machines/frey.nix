@@ -41,7 +41,10 @@
       enableTCPIP = true;
     };
 
-    #printing.enable = true;
+    printing = {
+      enable = true;
+      drivers = [ pkgs.brlaser pkgs.brgenml1lpr pkgs.brgenml1cupswrapper];
+    };
     sshd.enable = true; # automatically opens port 22
   };
 
