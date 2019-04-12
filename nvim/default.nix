@@ -47,7 +47,11 @@ in
           # Code completion
           "ultisnips"
           "vim-snippets"
-          "youcompleteme"
+          "ncm2"
+          "nvim-yarp"
+          "ncm2-bufword"
+          "ncm2-ultisnips"
+          "ncm2-path"
 
           # Filetypes
           "SimpylFold"

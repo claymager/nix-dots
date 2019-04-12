@@ -8,7 +8,10 @@ let g:loaded_python_provider = 1  " Disable python2
 
 " Style
 " ----------------------------------------
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=darkred guibg=darkred
 colorscheme dracula
+match ExtraWhitespace /\s\+\%#\@<!$/  " show trailing whitespace
+match ExtraWhitespace /[^\t]\zs\t\+/  " show tabs not at start of line
 set number
 set termguicolors
 set colorcolumn=100
@@ -35,7 +38,7 @@ set splitbelow
 set tabstop=4         " A tab is 4 spaces
 set softtabstop=4     " Insert 4 spaces when tab is pressed
 set shiftwidth=4      " An indent is 4 spaces
-set expandtab	        " Always uses spaces instead of tabs
+set expandtab         " Always uses spaces instead of tabs
 "set shiftround        " Round indent to nearestshiftwidth multiple
 
 
@@ -57,8 +60,8 @@ nnoremap <leader><leader> za
 " ----------------------------------------
 map <space> <leader>
 " Save and execute current file
-nnoremap <F5> :w:!%:p
-nnoremap <leader>~ cd %:h
+nnoremap <F5> :w<CR>:!%:p<CR>
+nnoremap <leader>~ cd %:h<CR>
 
 
 " Python specific
