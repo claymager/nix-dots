@@ -47,11 +47,9 @@ in
           # Code completion
           "ultisnips"
           "vim-snippets"
-          "ncm2"
+          "deoplete"
           "nvim-yarp"
-          "ncm2-bufword"
-          "ncm2-ultisnips"
-          "ncm2-path"
+          "vim-hug-neovim-rpc"
 
           # Filetypes
           "SimpylFold"

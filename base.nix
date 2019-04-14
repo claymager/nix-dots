@@ -37,7 +37,6 @@
       nvimPkgs = [
         myNeovim
         neovim-remote
-        texlive.combined.scheme-full
         (python3.withPackages(ps: [
           ps.python-language-server
           ps.pyls-mypy ps.pyls-isort ps.pyls-black

@@ -10,7 +10,7 @@
       t = "tree --filelimit 30 -ClL 3";
       neo = "nvim";
       to = "todo.sh";
-      nix-shell = "nix-shell --command \"exec fish\"";
+      ns = "nix-shell --command \"exec fish\"";
       nrt = "nixos-rebuild test";
     };
   };

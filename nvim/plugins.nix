@@ -59,4 +59,20 @@ in {
       sha256 = "1kmwnz0jxjkvfzy06r7r73pcxfcyjp8p8m2d6qrhjfvzidgfhw19";
 		};
 	};
+  "deoplete" = buildVimPlugin {
+    name = "deoplete";
+    src = fetchgit {
+      url = "https://github.com/Shougo/deoplete.nvim";
+      rev = "5c50f254175ee1e815a47761c50abec861afcc61";
+      sha256 = "133zlaha0lvibrcd4ci7h353pgv64yyvvh211g8pdlq8vd9qbrhn";
+		};
+	};
+  "vim-hug-neovim-rpc" = buildVimPlugin {
+    name = "vim-hug-neovim-rpc";
+    src = fetchgit {
+      url = "https://github.com/roxma/vim-hug-neovim-rpc";
+      rev = "55db7affbc9527464a88fb2d5f133f4994415f10";
+      sha256 = "1zlr761q12ds9z7xazrjfzqzrxd3z1dcxfq0p0vghwngrx8yqgyx";
+		};
+	};
 }
