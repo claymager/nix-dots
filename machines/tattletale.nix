@@ -7,7 +7,7 @@
   imports =
     [
       ../base.nix
-      ../../hardware-configuration.nix
+      ../hardware-configuration.nix
     ];
 
   boot.kernelModules = [

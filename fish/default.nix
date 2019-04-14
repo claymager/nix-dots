@@ -11,7 +11,9 @@
       neo = "nvim";
       to = "todo.sh";
       ns = "nix-shell --command \"exec fish\"";
-      nrt = "nixos-rebuild test";
+      nxt = "nixos-rebuild test";
+      nxf = "nixos-rebuild test --fast";
+      nxc = "sudo nixos-container";
     };
   };
 
