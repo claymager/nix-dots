@@ -132,7 +132,7 @@
     isNormalUser = true;
     home = "/home/john";
     extraGroups = [ "wheel" "networkmanager" "audio" "docker"];
-    shell = "/run/current-system/sw/bin/fish";
+    shell = "${pkgs.fish}/bin/fish";
     uid = 1000;
   };
 
@@ -145,8 +145,8 @@
       HOME = "%h/.dropbox";
     };
     serviceConfig = {
-      ExecStart = "${pkgs.dropbox.out}/bin/dropbox start";
-      ExecReload = "${pkgs.coreutils.out}/bin/kill -HUP $MAINPID";
+      ExecStart = "${pkgs.dropbox}/bin/dropbox start";
+      ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
       KillMode = "control-group"; # upstream recommends process
       Restart = "on-failure";
       PrivateTmp = true;
