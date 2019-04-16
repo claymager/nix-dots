@@ -7,7 +7,7 @@
   imports =
     [
       ../base.nix
-      ../hardware-configuration.nix
+      ../hardware-configuration/frey.nix
     ];
 
   boot.kernelParams = [ "acpi_rev_override" ];
@@ -46,6 +46,7 @@
       drivers = [ pkgs.brlaser pkgs.brgenml1lpr pkgs.brgenml1cupswrapper];
     };
     sshd.enable = true; # automatically opens port 22
+    sshd.permitRootLogin = "yes";
   };
 
   systemd.services.nvidia-control-devices = {
@@ -54,4 +55,6 @@
   };
 
   services.udev.extraRules = ''SUBSYSTEM=="power_supply", KERNEL=="BAT0", ATTR{status}=="Discharging", ATTR{capacity}=="[0-9]", RUN+="${pkgs.systemd}/bin/systemctl hibernate"'';
+  users.users.john.openssh.authorizedKeys.keyFiles = [ "/home/john/.ssh/authorized_keys" ];
+  users.users.root.openssh.authorizedKeys.keyFiles = [ "/home/john/.ssh/authorized_keys" ];
 }

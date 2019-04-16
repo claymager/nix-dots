@@ -49,10 +49,11 @@
 
     openssh = {
       enable = true;
-      permitRootLogin = "no";
+      permitRootLogin = "yes";
       passwordAuthentication = false;
     };
   };
 
   users.users.john.openssh.authorizedKeys.keyFiles = [ "/home/john/.ssh/authorized_keys" ];
+  users.users.root.openssh.authorizedKeys.keyFiles = [ "/home/john/.ssh/authorized_keys" ];
 }
