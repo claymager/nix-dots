@@ -4,21 +4,18 @@
 
 { config, pkgs, ... }:
 
+let
+
+  secrets = import ./private/secrets.nix;
+
+in
+
 {
-  # Use the systemd-boot EFI boot loader.
   imports = [
     ./fish
     ./pia
-    ./private
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  hardware.pulseaudio = {
-    enable = true;
-    package = pkgs.pulseaudioFull;
-  };
 
   i18n = {
     consoleKeyMap = "us";
@@ -33,32 +30,13 @@
 
   environment = {
     systemPackages = with pkgs; let
-      myNeovim = import ./nvim;
       nvimPkgs = [
-        myNeovim
+        (import ./nvim)
         neovim-remote
         (python3.withPackages(ps: [
           ps.python-language-server
           ps.pyls-mypy ps.pyls-isort ps.pyls-black
       ]))];
-      guiPackages = if config.services.xserver.enable then
-          [ (conky.override {
-              nvidiaSupport=true;
-              pulseSupport=true;
-            })
-            discord
-            feh
-            google-chrome
-            kitty
-            pavucontrol
-            playerctl
-            qutebrowser
-            scrot
-            slack
-            spotify
-            vlc
-            xclip
-          ] else [ ];
       in [
         alsaUtils
         bat
@@ -75,18 +53,10 @@
         todo-txt-cli
         tree
         wget
-      ] ++ nvimPkgs ++ guiPackages;
+      ] ++ nvimPkgs;
   };
 
-  fonts.enableFontDir = true;
-  fonts.fonts = with pkgs; [
-    #fantasque-sans-mono # installed imperatively for alpha version
-    fira-code
-    corefonts
-    terminus_font
-    font-awesome_5
-    hasklig
-  ];
+  networking.extraHosts = secrets.hosts;
 
   networking.firewall = {
     allowedTCPPorts = [ 17500 ];
@@ -94,46 +64,21 @@
     # 17500 : Dropbox
   };
 
-  services = {
-    xserver = {
-      # keyboard
-      layout = "us";
-      xkbVariant = "altgr-intl";
-      xkbOptions = "nodeadkeys";
-
-      windowManager = {
-        xmonad.enable = true;
-        xmonad.enableContribAndExtras = true;
-        default = "xmonad";
-      };
-
-      displayManager.slim = {
-        enable = true;
-        theme = pkgs.fetchurl {
-          url = "https://github.com/edwtjo/nixos-black-theme/archive/v1.0.tar.gz";
-          sha256 = "13bm7k3p6k7yq47nba08bn48cfv536k4ipnwwp1q1l2ydlp85r9d";
-        };
-        defaultUser = "john";
-      };
-
-      desktopManager.xterm.enable = false;
+  users = {
+    mutableUsers = false;
+    users.root = {
+      openssh.authorizedKeys.keys = secrets.keys;
+      initialHashedPassword = "$5$MqXY9HEJ6cgytphv$6mENYjITeTIm2nW8LzvUK4XC6.8Z31K/iXFs3a4TlX6";
     };
-
-    unclutter.enable = true;
-    redshift = {
-      enable = true;
-      latitude = "41.881";
-      longitude = "-87.623";
-      temperature.night = 3000;
+    extraUsers.john = {
+      isNormalUser = true;
+      home = "/home/john";
+      extraGroups = [ "wheel" "networkmanager" "vboxusers" "audio" "docker"];
+      shell = "${pkgs.fish}/bin/fish";
+      openssh.authorizedKeys.keys = secrets.keys;
+      initialHashedPassword = "$5$eFedV/r0fU9/3XwL$89FMUzv.t.EosfEQhDvRSrvX3t4LeDRrqMxXpkJ/HH6";
+      uid = 1000;
     };
-  };
-
-  users.extraUsers.john = {
-    isNormalUser = true;
-    home = "/home/john";
-    extraGroups = [ "wheel" "networkmanager" "audio" "docker"];
-    shell = "${pkgs.fish}/bin/fish";
-    uid = 1000;
   };
 
   systemd.user.services.dropbox = {
@@ -154,6 +99,8 @@
       Nice = 10;
     };
   };
+
+  services.openssh.enable = true;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

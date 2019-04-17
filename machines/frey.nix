@@ -7,9 +7,12 @@
   imports =
     [
       ../base.nix
+      ../gui.nix
       ../hardware-configuration/frey.nix
     ];
 
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelParams = [ "acpi_rev_override" ];
 
   hardware = {
@@ -18,9 +21,6 @@
       enable = true;
       connectDisplay = true;
     };
-    # steam needs 32Bit support
-    opengl.driSupport32Bit = true;
-    pulseaudio.support32Bit = true;
   };
 
   networking = {
@@ -31,7 +31,6 @@
   programs.light.enable = true;
 
   services = {
-    xserver.enable = true;
     xserver.libinput.enable = true; # touchpad
 
     mongodb.enable = true;
@@ -45,8 +44,9 @@
       enable = true;
       drivers = [ pkgs.brlaser pkgs.brgenml1lpr pkgs.brgenml1cupswrapper];
     };
-    sshd.enable = true; # automatically opens port 22
-    sshd.permitRootLogin = "yes";
+
+    openssh.enable = true; # automatically opens port 22
+
   };
 
   systemd.services.nvidia-control-devices = {
@@ -55,6 +55,4 @@
   };
 
   services.udev.extraRules = ''SUBSYSTEM=="power_supply", KERNEL=="BAT0", ATTR{status}=="Discharging", ATTR{capacity}=="[0-9]", RUN+="${pkgs.systemd}/bin/systemctl hibernate"'';
-  users.users.john.openssh.authorizedKeys.keyFiles = [ "/home/john/.ssh/authorized_keys" ];
-  users.users.root.openssh.authorizedKeys.keyFiles = [ "/home/john/.ssh/authorized_keys" ];
 }

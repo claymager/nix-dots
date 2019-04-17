@@ -7,9 +7,12 @@
   imports =
     [
       ../base.nix
+      ../gui.nix
       ../hardware-configuration.nix
     ];
 
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [
     "i2c-dev" # i2c bus utility for periferals
     "nct6775" # hardware sensors
@@ -26,8 +29,9 @@
     ];
   };
 
+  users.extraUsers.john.hashedPassword = "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
+
   services = {
-    xserver.enable = true;
     xserver.videoDrivers = ["nvidia" ];
 
     mongodb = {
@@ -48,12 +52,12 @@
     };
 
     openssh = {
-      enable = true;
-      permitRootLogin = "yes";
+      permitRootLogin = "no";
       passwordAuthentication = false;
+      extraConfig = ''
+        Match Address ::1
+                PermitRootLogin yes
+      '';
     };
   };
-
-  users.users.john.openssh.authorizedKeys.keyFiles = [ "/home/john/.ssh/authorized_keys" ];
-  users.users.root.openssh.authorizedKeys.keyFiles = [ "/home/john/.ssh/authorized_keys" ];
 }
