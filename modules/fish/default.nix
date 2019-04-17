@@ -20,6 +20,6 @@
   programs.fish = {
     enable = true;
     promptInit = builtins.readFile ./prompt.fish;
-    shellInit  = builtins.readFile ./functions.fish;
+    shellInit  = builtins.readFile ./init.fish;
   };
 }

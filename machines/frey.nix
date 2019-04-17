@@ -6,8 +6,9 @@
 {
   imports =
     [
-      ../base.nix
-      ../gui.nix
+      ../modules/base.nix
+      ../modules/gui.nix
+      ../modules/dev.nix
       ../hardware-configuration/frey.nix
     ];
 
@@ -23,12 +24,14 @@
     };
   };
 
+  users.extraUsers.john.hashedPassword = "$5$QIlpPxYhSVGcTd8k$ISN3TP3r1iLag2YB1Tw3vQ2oTrC8It.wcxUmplfAM94";
+
   networking = {
-    hostName = "frey";
+    hostName = "genevieve";
     networkmanager.enable = true;
   };
 
-  programs.light.enable = true;
+  # programs.light.enable = true; # no-op since 19.03
 
   services = {
     xserver.libinput.enable = true; # touchpad
@@ -44,9 +47,6 @@
       enable = true;
       drivers = [ pkgs.brlaser pkgs.brgenml1lpr pkgs.brgenml1cupswrapper];
     };
-
-    openssh.enable = true; # automatically opens port 22
-
   };
 
   systemd.services.nvidia-control-devices = {

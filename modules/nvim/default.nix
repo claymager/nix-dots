@@ -4,7 +4,7 @@ let
   plugins = pkgs.callPackage ./plugins.nix {};
   base = builtins.readFile ./base.vim;
   plug = builtins.readFile ./plugins.vim;
-  private = builtins.readFile ../private/private.vim;
+  private = builtins.readFile ../../private/private.vim;
 
 in
   neovim.override {

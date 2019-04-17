@@ -6,14 +6,13 @@
 
 let
 
-  secrets = import ./private/secrets.nix;
+  secrets = import ../private/secrets.nix;
 
 in
 
 {
   imports = [
     ./fish
-    ./pia
   ];
 
 
@@ -29,40 +28,17 @@ in
   };
 
   environment = {
-    systemPackages = with pkgs; let
-      nvimPkgs = [
-        (import ./nvim)
-        neovim-remote
-        (python3.withPackages(ps: [
-          ps.python-language-server
-          ps.pyls-mypy ps.pyls-isort ps.pyls-black
-      ]))];
-      in [
-        alsaUtils
-        bat
-        #cudatoolkit
-        dropbox-cli
-        file
-        git
-        gnupg
-        htop
-        lm_sensors
-        mongodb-tools
-        pass
-        pciutils
-        todo-txt-cli
-        tree
-        wget
-      ] ++ nvimPkgs;
+    systemPackages = with pkgs; [
+      bat
+      git
+      gnupg
+      htop
+      tree
+      wget
+    ];
   };
 
   networking.extraHosts = secrets.hosts;
-
-  networking.firewall = {
-    allowedTCPPorts = [ 17500 ];
-    allowedUDPPorts = [ 17500 ];
-    # 17500 : Dropbox
-  };
 
   users = {
     mutableUsers = false;
@@ -81,24 +57,6 @@ in
     };
   };
 
-  systemd.user.services.dropbox = {
-    description = "Dropbox";
-    wantedBy = [ "graphical-session.target" ];
-    environment = {
-      QT_PLUGIN_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtPluginPrefix;
-      QML2_IMPORT_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtQmlPrefix;
-      HOME = "%h/.dropbox";
-    };
-    serviceConfig = {
-      ExecStart = "${pkgs.dropbox}/bin/dropbox start";
-      ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
-      KillMode = "control-group"; # upstream recommends process
-      Restart = "on-failure";
-      PrivateTmp = true;
-      ProtectSystem = "full";
-      Nice = 10;
-    };
-  };
 
   services.openssh.enable = true;
 

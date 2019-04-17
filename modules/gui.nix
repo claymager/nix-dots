@@ -3,11 +3,19 @@
 { config, pkgs, ... }:
 
 {
+
+  hardware.pulseaudio = {
+    enable = true;
+    package = pkgs.pulseaudioFull;
+  };
+
+
   environment.systemPackages = with pkgs; [
     (conky.override {
       nvidiaSupport=true;
       pulseSupport=true;
     })
+    alsaUtils
     discord
     feh
     google-chrome
@@ -21,6 +29,18 @@
     vlc
     xclip
   ];
+
+
+  fonts.enableFontDir = true;
+  fonts.fonts = with pkgs; [
+    #fantasque-sans-mono # installed imperatively for alpha version
+    fira-code
+    corefonts
+    terminus_font
+    font-awesome_5
+    hasklig
+  ];
+
 
   services = {
     xserver = {
@@ -54,20 +74,5 @@
       temperature.night = 3000;
     };
   };
-
-  hardware.pulseaudio = {
-    enable = true;
-    package = pkgs.pulseaudioFull;
-  };
-
-  fonts.enableFontDir = true;
-  fonts.fonts = with pkgs; [
-    #fantasque-sans-mono # installed imperatively for alpha version
-    fira-code
-    corefonts
-    terminus_font
-    font-awesome_5
-    hasklig
-  ];
 
 }

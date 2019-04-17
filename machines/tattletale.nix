@@ -6,8 +6,9 @@
 {
   imports =
     [
-      ../base.nix
-      ../gui.nix
+      ../modules/base.nix
+      ../modules/gui.nix
+      ../modules/dev.nix
       ../hardware-configuration.nix
     ];
 
@@ -20,16 +21,16 @@
 
   hardware.bluetooth.enable = true;
 
+  users.extraUsers.john.hashedPassword = "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
+
   networking = {
     hostName = "tattletale";
     firewall.allowedTCPPorts = [
-      22      # OpenSSH
       5432    # Postgres
       27017   # MongoDB
     ];
   };
 
-  users.extraUsers.john.hashedPassword = "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
   services = {
     xserver.videoDrivers = ["nvidia" ];

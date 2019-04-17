@@ -12,11 +12,10 @@ function pythonEnv --description 'start a nix-shell with the given python packag
   nix-shell -p $ppkgs
 end
 
-function nixos-rebuild
-  sudo nixos-rebuild $argv
-  unlink result
-end
-
 set fish_greeting ""
 set -xg BAT_THEME "Dracula"
 set -xg NIX_PATH userpkgs=$HOME/nixpkgs:$NIX_PATH
+
+if type -q kitty
+    set TERM xterm-color
+end
