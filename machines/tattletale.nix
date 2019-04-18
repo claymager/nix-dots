@@ -6,10 +6,10 @@
 {
   imports =
     [
-      ../modules/base.nix
-      ../modules/gui.nix
-      ../modules/dev.nix
-      ../hardware-configuration.nix
+      ../nixconfigs/tattletale.nix
+      ../hardware-configuration/tattletale.nix
+      <nixos-hardware/common/cpu/amd>
+      <nixos-hardware/common/pc/ssd>
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -17,48 +17,8 @@
   boot.kernelModules = [
     "i2c-dev" # i2c bus utility for periferals
     "nct6775" # hardware sensors
+    "amd-kvm" # amd virtualisation
   ];
 
   hardware.bluetooth.enable = true;
-
-  users.extraUsers.john.hashedPassword = "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
-
-  networking = {
-    hostName = "tattletale";
-    firewall.allowedTCPPorts = [
-      5432    # Postgres
-      27017   # MongoDB
-    ];
-  };
-
-
-  services = {
-    xserver.videoDrivers = ["nvidia" ];
-
-    mongodb = {
-      enable = true;
-      bind_ip = "0.0.0.0";
-    };
-
-    postgresql = {
-      enable = true;
-      package = pkgs.postgresql_10;
-      enableTCPIP = true;
-      authentication = pkgs.lib.mkOverride 10 ''
-        local all all trust
-        host all all ::1/128 trust
-        host all all 2601:40f:600:99b::/64 md5
-        host all all 192.168.1.1/24 md5
-      '';
-    };
-
-    openssh = {
-      permitRootLogin = "no";
-      passwordAuthentication = false;
-      extraConfig = ''
-        Match Address ::1
-                PermitRootLogin yes
-      '';
-    };
-  };
 }

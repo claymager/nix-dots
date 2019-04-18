@@ -16,6 +16,11 @@ set fish_greeting ""
 set -xg BAT_THEME "Dracula"
 set -xg NIX_PATH userpkgs=$HOME/nixpkgs:$NIX_PATH
 
+function nixos-rebuild
+    sudo nixos-rebuild $argv
+    unlink result
+end
+
 if type -q kitty
     set TERM xterm-color
 end
