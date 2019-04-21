@@ -2,7 +2,10 @@
 {
   frey = 
     { config, pkgs, ... }:
-    { deployment.targetHost = "192.168.1.16";
+    {
+      deployment.targetHost = "fec0::2";
+      # deployment.targetHost = "::1";
+      # deployment.targetPort = 22922;
     };
   tattletale = 
     { config, pkgs, ... }:

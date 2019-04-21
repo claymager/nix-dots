@@ -6,19 +6,7 @@
 {
   imports =
     [
-      ../nixconfigs/tattletale.nix
+      ../logical-machines/tattletale.nix
       ../hardware-configuration/tattletale.nix
-      <nixos-hardware/common/cpu/amd>
-      <nixos-hardware/common/pc/ssd>
     ];
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelModules = [
-    "i2c-dev" # i2c bus utility for periferals
-    "nct6775" # hardware sensors
-    "amd-kvm" # amd virtualisation
-  ];
-
-  hardware.bluetooth.enable = true;
 }
