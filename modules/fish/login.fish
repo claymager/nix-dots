@@ -40,7 +40,7 @@ abbr icat kitty +kitten icat
 
 abbr g git
 abbr glo git log --graph --oneline
-abbr gla git log --graph --oneline all
+abbr gla git log --graph --oneline --all
 abbr gl git log 
 abbr gco git checkout
 

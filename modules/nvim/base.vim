@@ -60,6 +60,7 @@ nnoremap <leader><leader> za
 " Other Bindings
 " ----------------------------------------
 map <space> <leader>
+nnoremap <delete> l
 " Save and execute current file
 nnoremap <F5> :w<CR>:!%:p<CR>
 nnoremap <leader>~ cd %:h<CR>
@@ -68,9 +69,10 @@ nnoremap <leader>~ cd %:h<CR>
 nnoremap gn :e #<CR>
 
 
-" Python specific
+" Language specific
 " ----------------------------------------
 autocmd filetype python setlocal ts=4 sts=4 sw=4
 autocmd filetype haskell setlocal ts=2 sts=2 sw=2
 autocmd filetype nix setlocal ts=2 sts=2 sw=2
+autocmd filetype c setlocal ts=4 sts=4 sw=4 noexpandtab
 
