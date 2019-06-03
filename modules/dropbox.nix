@@ -6,7 +6,7 @@
     allowedUDPPorts = [ 17500 ];
   };
 
-  environment.systemPackages = [ dropbox-cli ];
+  environment.systemPackages = [ pkgs.dropbox-cli ];
 
   systemd.user.services.dropbox = {
     description = "Dropbox";

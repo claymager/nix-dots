@@ -21,12 +21,14 @@
 
   hardware.bluetooth.enable = true;
 
-  networking.interfaces.enp31s0 = {
-    useDHCP = true;
-    ipv6.addresses = [
-      { address = "fec0::1";
-        prefixLength = 10;
-      }
-    ];
-  };
+  # networking.interfaces.enp31s0 = {
+  #   useDHCP = true;
+  #   ipv6.addresses = [
+  #     { address = "fec0::1";
+  #       prefixLength = 10;
+  #     }
+  #   ];
+  # };
+
+  services.udev.extraRules = ''SUBSYSTEM=="tty", ATTRS{idVendor}=="feed", ATTRS{idProduct}=="1337", ATTRS{serial}=="0", MODE="0666", SYMLINK+="georgi"'';
 }

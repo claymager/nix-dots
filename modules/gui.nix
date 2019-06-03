@@ -47,7 +47,6 @@
       enable = true;
       layout = "us";
       xkbVariant = "altgr-intl";
-      xkbOptions = "nodeadkeys";
       desktopManager.xterm.enable = false;
 
       displayManager.slim = {
