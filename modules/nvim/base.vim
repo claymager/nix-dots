@@ -11,7 +11,7 @@ let g:loaded_python_provider = 1  " Disable python2
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=darkred guibg=darkred
 colorscheme dracula
 match ExtraWhitespace /\s\+\%#\@<!$/  " show trailing whitespace
-match ExtraWhitespace /[^\t]\zs\t\+/  " show tabs not at start of line
+" match ExtraWhitespace /[^\t]\zs\t\+/  " show tabs not at start of line
 
 set number
 set termguicolors
@@ -74,5 +74,7 @@ nnoremap gn :e #<CR>
 autocmd filetype python setlocal ts=4 sts=4 sw=4
 autocmd filetype haskell setlocal ts=2 sts=2 sw=2
 autocmd filetype nix setlocal ts=2 sts=2 sw=2
+autocmd filetype elm setlocal ts=2 sts=2 sw=2
 autocmd filetype c setlocal ts=4 sts=4 sw=4 noexpandtab
+autocmd filetype h setlocal ts=4 sts=4 sw=4 noexpandtab
 

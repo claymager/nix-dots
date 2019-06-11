@@ -1,7 +1,7 @@
 with import <nixpkgs> {};
 
 let
-  plugins = pkgs.callPackage ./plugins.nix {};
+  extraPlugins = pkgs.callPackage ./extra-plugins.nix {};
   base = builtins.readFile ./base.vim;
   plug = builtins.readFile ./plugins.vim;
   private = builtins.readFile ../../private/private.vim;
@@ -16,7 +16,7 @@ in
         ${plug}
         ${private}
         '';
-      vam.knownPlugins = pkgs.vimPlugins // plugins;
+      vam.knownPlugins = pkgs.vimPlugins // extraPlugins;
       vam.pluginDictionaries = [
         # Universal plugins
         { names = [
@@ -46,6 +46,7 @@ in
 
           # Code completion
           "ultisnips"
+          # "vim-skeleton"
           "vim-snippets"
           "deoplete"
           "nvim-yarp"
