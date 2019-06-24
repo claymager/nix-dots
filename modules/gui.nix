@@ -12,7 +12,7 @@
 
   environment.systemPackages = with pkgs; [
     (conky.override {
-      nvidiaSupport=true;
+      # nvidiaSupport=true;
       pulseSupport=true;
     })
     alsaUtils

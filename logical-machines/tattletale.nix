@@ -23,7 +23,7 @@
 
 
   services = {
-    xserver.videoDrivers = ["nvidia" ];
+#    xserver.videoDrivers = ["nvidia" ];
 
     mongodb = {
       enable = true;
