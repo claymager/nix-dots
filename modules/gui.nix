@@ -28,6 +28,10 @@
     spotify
     vlc
     xclip
+
+    notify-osd-customizable
+    libnotify
+    xorg.xmessage
   ];
 
 
