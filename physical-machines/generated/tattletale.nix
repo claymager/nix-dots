@@ -22,14 +22,14 @@
       fsType = "tmpfs";
     };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/8DC6-7291";
-      fsType = "vfat";
-    };
-
   fileSystems."/tmp" =
     { device = "tmp";
       fsType = "tmpfs";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/8DC6-7291";
+      fsType = "vfat";
     };
 
   swapDevices = [ ];

@@ -7,6 +7,6 @@
   imports =
     [
       ../logical-machines/frey.nix
-      ../hardware-configuration/frey.nix
+     ../physical-machines/frey.nix
     ];
 }

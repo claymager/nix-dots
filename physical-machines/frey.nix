@@ -6,7 +6,7 @@
 {
   imports =
     [
-      ../hardware-configuration/generated/frey.nix
+      ./generated/frey.nix
       <nixos-hardware/dell/xps/15-9550>
     ];
 
