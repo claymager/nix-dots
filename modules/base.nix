@@ -38,12 +38,6 @@ in
     ];
   };
 
-  networking.hosts = {
-    "fec0::1" = [ "lisa" ];
-    "fec0::2" = [ "frey" ];
-    "fec0::3" = [ "rain" ];
-  };
-
   users = {
     mutableUsers = false;
     users.root = {
