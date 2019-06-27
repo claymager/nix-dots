@@ -38,6 +38,15 @@ in
     ];
   };
 
+  nix = {
+    optimise.automatic = true;
+    extraOptions = ''
+      keep-outputs = true
+      keep-derivations = true
+    '';
+
+  };
+
   users = {
     mutableUsers = false;
     users.root = {
