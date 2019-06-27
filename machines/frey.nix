@@ -9,4 +9,6 @@
       ../logical-machines/frey.nix
      ../physical-machines/laptop.nix
     ];
+
+  networking.hostName = "frey";
 }

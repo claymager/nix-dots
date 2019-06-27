@@ -12,7 +12,6 @@
   users.extraUsers.john.hashedPassword = "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
   networking = {
-    hostName = "tattletale";
     firewall.allowedTCPPorts = [
       5432    # Postgres
       27017   # MongoDB
