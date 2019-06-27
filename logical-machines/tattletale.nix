@@ -6,7 +6,6 @@
     [
       ../modules/common.nix
       ../modules/gui.nix
-      ../modules/dropbox.nix
       ../modules/dev.nix
     ];
 

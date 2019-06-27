@@ -4,6 +4,10 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./dropbox.nix
+  ];
+
   environment = {
     systemPackages = with pkgs; [
       nixops
