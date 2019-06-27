@@ -27,6 +27,7 @@
     spotify
     vlc
     xclip
+    zathura
 
     notify-osd-customizable
     libnotify

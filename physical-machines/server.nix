@@ -6,7 +6,7 @@
 {
   imports =
     [
-      ./generated/tattletale.nix
+      ./generated/server.nix
       <nixos-hardware/common/cpu/amd>
       <nixos-hardware/common/pc/ssd>
     ];

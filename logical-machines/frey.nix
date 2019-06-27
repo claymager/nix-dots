@@ -7,7 +7,7 @@
 
   imports =
     [
-      ../modules/base.nix
+      ../modules/common.nix
       ../modules/gui.nix
       ../modules/dev.nix
     ];

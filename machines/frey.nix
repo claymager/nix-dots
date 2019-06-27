@@ -7,6 +7,6 @@
   imports =
     [
       ../logical-machines/frey.nix
-     ../physical-machines/frey.nix
+     ../physical-machines/laptop.nix
     ];
 }

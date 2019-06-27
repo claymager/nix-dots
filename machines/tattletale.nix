@@ -7,6 +7,6 @@
   imports =
     [
       ../logical-machines/tattletale.nix
-      ../physical-machines/tattletale.nix
+      ../physical-machines/server.nix
     ];
 }

@@ -1,14 +1,25 @@
+let
+
+  myHosts = (import ./private/secrets.nix).hosts;
+
+in
 
 {
-  frey = 
-    { config, pkgs, ... }:
+
+  frey =
     {
-      deployment.targetHost = "fe80::305b:6fcb:541b:5b85";
+      deployment.targetHost = "192.168.1.202";
+      imports = [ ./physical-machines/laptop.nix ];
+      networking.extraHosts = myHosts;
       # deployment.targetHost = "::1";
       # deployment.targetPort = 22922;
     };
-  tattletale = 
-    { config, pkgs, ... }:
-    { deployment.targetHost = "::1";
+
+  tattletale =
+    {
+      deployment.targetHost = "::1";
+      imports = [ ./physical-machines/server.nix ];
+      networking.extraHosts = myHosts;
     };
+
 }
