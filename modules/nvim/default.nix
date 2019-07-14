@@ -36,6 +36,7 @@ in
           "quick-scope"
           "vim-surround"
           "vim-textobj-indent"
+          "vim-textobj-line"
           "vim-textobj-user"
           "tabular"
 

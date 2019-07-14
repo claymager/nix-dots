@@ -15,7 +15,7 @@ in {
     name = "vim-fish";
     src = fetchgit {
       url = "https://github.com/dag/vim-fish";
-      rev = "50b95cbbcd09c046121367d49039710e9dc9c15f"; 
+      rev = "50b95cbbcd09c046121367d49039710e9dc9c15f";
       sha256 = "1yvjlm90alc4zsdsppkmsja33wsgm2q6kkn9dxn6xqwnq4jw5s7h";
 		};
 	};
@@ -27,7 +27,7 @@ in {
       sha256 = "1nlrj5n0lzqy267rvza3ky5yf8plad5fpb1r8dqgq5s3k4l448mg";
     };
   };
-  "SimpylFold" = buildVimPlugin { 
+  "SimpylFold" = buildVimPlugin {
     name = "SimpylFold";
     src = fetchgit {
       url = "https://github.com/tmhedberg/SimpylFold";
@@ -39,7 +39,7 @@ in {
     name = "vim-textobj-python";
     src = fetchgit {
       url = "https://github.com/bps/vim-textobj-python";
-      rev = "585c76d58f1a9c458c87471b072c9ad9eb159ae2"; 
+      rev = "585c76d58f1a9c458c87471b072c9ad9eb159ae2";
       sha256 = "1jk0vf5v6l0sf9akgfy6bhfa8rmbvb413aam6zx5nc1ddpzb0ryy";
 		};
 	};
@@ -59,6 +59,13 @@ in {
       sha256 = "1kmwnz0jxjkvfzy06r7r73pcxfcyjp8p8m2d6qrhjfvzidgfhw19";
 		};
 	};
+  "vim-textobj-line" = buildVimPlugin {
+    name = "vim-textobj-line";
+    src = fetchgit {
+      url = "https://github.com/kana/vim-textobj-line";
+      sha256 = "93a9239b036a9a49556828a033304bef1a6e3007b3a93d86dd970fb42a7bf756";
+		};
+  };
   "deoplete" = buildVimPlugin {
     name = "deoplete";
     src = fetchgit {
