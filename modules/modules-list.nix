@@ -1,0 +1,9 @@
+[
+  ./fish
+  ./nvim
+  ./common.nix
+  ./dev.nix
+  ./services/dropbox.nix
+  ./gui.nix
+  ./services/pia.nix
+]
