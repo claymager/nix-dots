@@ -4,22 +4,16 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ ../modules/common.nix ];
 
-  imports =
-    [
-      ../modules/common.nix
-      ../modules/gui.nix
-      ../modules/dev.nix
-    ];
+  profiles.dev.enable = true;
+  profiles.gui.enable = true;
 
   users.extraUsers.john.hashedPassword = "$5$QIlpPxYhSVGcTd8k$ISN3TP3r1iLag2YB1Tw3vQ2oTrC8It.wcxUmplfAM94";
 
-  networking = {
-    networkmanager.enable = true;
-  };
+  networking.networkmanager.enable = true;
 
   services = {
-
     mongodb.enable = true;
 
     postgresql = {

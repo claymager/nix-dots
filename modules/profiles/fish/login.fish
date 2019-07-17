@@ -1,7 +1,3 @@
-if type -q kitty
-    set TERM xterm-color
-end
-
 # Clear previous abbreviations
 for a in (abbr -l)
     abbr -e $a

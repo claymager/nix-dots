@@ -11,6 +11,7 @@ in {
       sha256= "0w9aj42hb8x7601gbgf0ggs7p3sm5wrv23bnvrjgdlf3mapg6dwy";
     };
   };
+
   "vim-fish" = buildVimPlugin {
     name = "vim-fish";
     src = fetchgit {
@@ -19,6 +20,7 @@ in {
       sha256 = "1yvjlm90alc4zsdsppkmsja33wsgm2q6kkn9dxn6xqwnq4jw5s7h";
 		};
 	};
+
   "quick-scope" = buildVimPlugin {
     name = "quick-scope";
     src = fetchgit {
@@ -27,6 +29,7 @@ in {
       sha256 = "1nlrj5n0lzqy267rvza3ky5yf8plad5fpb1r8dqgq5s3k4l448mg";
     };
   };
+
   "SimpylFold" = buildVimPlugin {
     name = "SimpylFold";
     src = fetchgit {
@@ -35,6 +38,7 @@ in {
       sha256 = "1fmg2c40x22bxc40a4i7acvf6h1hw0ws39kpkn77p1kfhgiaxqwn";
     };
   };
+
   "vim-textobj-python" = buildVimPlugin {
     name = "vim-textobj-python";
     src = fetchgit {
@@ -43,6 +47,7 @@ in {
       sha256 = "1jk0vf5v6l0sf9akgfy6bhfa8rmbvb413aam6zx5nc1ddpzb0ryy";
 		};
 	};
+
   "vim-textobj-user" = buildVimPlugin {
     name = "vim-textobj-user";
     src = fetchgit {
@@ -51,6 +56,7 @@ in {
       sha256 = "15wnqkxjjksgn8a7d3lkbf8d97r4w159bajrcf1adpxw8hhli1vc";
 		};
 	};
+
   "vim-textobj-indent" = buildVimPlugin {
     name = "vim-textobj-indent";
     src = fetchgit {
@@ -59,6 +65,7 @@ in {
       sha256 = "1kmwnz0jxjkvfzy06r7r73pcxfcyjp8p8m2d6qrhjfvzidgfhw19";
 		};
 	};
+
   "vim-textobj-line" = buildVimPlugin {
     name = "vim-textobj-line";
     src = fetchgit {
@@ -66,6 +73,7 @@ in {
       sha256 = "93a9239b036a9a49556828a033304bef1a6e3007b3a93d86dd970fb42a7bf756";
 		};
   };
+
   "deoplete" = buildVimPlugin {
     name = "deoplete";
     src = fetchgit {
@@ -74,6 +82,7 @@ in {
       sha256 = "133zlaha0lvibrcd4ci7h353pgv64yyvvh211g8pdlq8vd9qbrhn";
 		};
 	};
+
   "vim-hug-neovim-rpc" = buildVimPlugin {
     name = "vim-hug-neovim-rpc";
     src = fetchgit {

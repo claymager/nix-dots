@@ -1,9 +1,7 @@
 [
-  ./fish
-  ./nvim
-  ./common.nix
-  ./dev.nix
+  ./profiles/dev.nix
+  ./profiles/fish.nix
+  ./profiles/gui.nix
   ./services/dropbox.nix
-  ./gui.nix
   ./services/pia.nix
 ]

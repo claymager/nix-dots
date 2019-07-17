@@ -1,13 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ ../modules/common.nix ];
 
-  imports =
-    [
-      ../modules/common.nix
-      ../modules/gui.nix
-      ../modules/dev.nix
-    ];
+  profiles.gui.enable = true;
+  profiles.dev.enable = true;
 
   users.extraUsers.john.hashedPassword = "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
@@ -50,7 +47,7 @@
       passwordAuthentication = false;
       extraConfig = ''
         Match Address ::1
-                PermitRootLogin yes
+                PermitRootLogin forced-commands-only
       '';
     };
   };

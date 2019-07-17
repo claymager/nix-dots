@@ -2,41 +2,38 @@
 # all systems.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
 
-  secrets = import ../private/secrets.nix;
+  secrets = import ./../secrets.nix;
 
 in
 
 {
-  imports = [
-    ./fish
-  ];
+  imports = (import ../modules/modules-list.nix);
 
+  profiles.fish.enable = true;
 
   i18n = {
     consoleKeyMap = "us";
     defaultLocale = "en_US.UTF-8";
   };
 
-  time.timeZone = "America/Detroit";
+  time.timeZone = lib.mkDefault "America/Detroit";
 
   nixpkgs.config = {
     allowUnfree = true;
   };
 
-  environment = {
-    systemPackages = with pkgs; [
-      bat
-      git
-      gnupg
-      htop
-      tree
-      wget
-    ];
-  };
+  environment.systemPackages = with pkgs; [
+    bat
+    git
+    gnupg
+    htop
+    tree
+    wget
+  ];
 
   nix = {
     optimise.automatic = true;
