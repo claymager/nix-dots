@@ -31,6 +31,7 @@ abbr npd nixops destroy -d
 abbr npp nixops deploy -d
 abbr npi nixops info -d
 abbr nps nixops ssh -d
+abbr npss nixops ssh-for-each -d
 abbr npa nixops info --all
 abbr npl nixops list
 
