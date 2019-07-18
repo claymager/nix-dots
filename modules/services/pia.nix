@@ -1,12 +1,13 @@
 { config, pkgs, lib, ... }:
 
 with lib;
+with builtins;
 
 let
 
   cfg = config.services.pia;
 
-  pia-config = authFile: stdenv.mkDerivation rec {
+  pia-config = authFile: pkgs.stdenv.mkDerivation rec {
     name = "pia-config";
 
     buildInputs = [
@@ -14,7 +15,7 @@ let
       pkgs.libuuid
     ];
 
-    src = builtins.fetchurl {
+    src = fetchurl {
       url = "https://www.privateinternetaccess.com/openvpn/openvpn.zip";
       sha256 = "0249zdi87mi3dsnjvpqkk7jx8f9d9kaffl676zlqp7hfgfcbix17";
     };
@@ -41,6 +42,11 @@ let
       sed -i "s|ca.rsa.2048.crt|$out/certs/\0|g" "$out"/config/*.ovpn
 
       sed -i "s|auth-user-pass|auth-user-pass ${authFile}|g" "$out"/config/*.ovpn
+
+      for conf in $(ls "$out"/config/*.ovpn); do
+        echo "group openvpn" >> $conf;
+      done
+
     '';
   };
 
@@ -58,10 +64,7 @@ in
 
 
   config = mkIf cfg.enable {
-
-    # environment.systemPackages = with pkgs; [
-    #   openresolv
-    # ];
+    users.groups.openvpn.gid = null;
 
     # Configure all our servers
     # Use with `sudo systemctl start openvpn-us-east`
@@ -79,6 +82,5 @@ in
           }; })
           {}
           ( attrNames (readDir "${pia-config cfg.authFile}/config"));
-
   };
 }

@@ -22,9 +22,7 @@ in
 
   time.timeZone = lib.mkDefault "America/Detroit";
 
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
+  nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     bat
@@ -41,7 +39,6 @@ in
       keep-outputs = true
       keep-derivations = true
     '';
-
   };
 
   users = {
@@ -71,5 +68,4 @@ in
   # should.
   system.stateVersion = "19.03"; # Did you read the comment?
   system.fsPackages = [ pkgs.exfat ];
-
 }

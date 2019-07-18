@@ -30,7 +30,7 @@ with lib;
 
     (mkIf
       (!builtins.any (p: p == pkgs.kitty) config.environment.systemPackages)
-      { environment.variables.TERM = "xterm-color"; }
+      { environment.variables.TERM = mkDefault "xterm-color"; }
     )
   ];
 }
