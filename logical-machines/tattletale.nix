@@ -9,6 +9,15 @@
   users.extraUsers.john.hashedPassword =
     "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
+  containers.sverige = {
+    config = import ./sverige.nix;
+    enableTun = true;
+    privateNetwork = true;
+    hostAddress = "192.168.100.10";
+    localAddress = "192.168.100.11";
+    autoStart = true;
+  };
+
   containers.kenz = {
     config = import ./kenz.nix;
     autoStart = true;
