@@ -13,7 +13,12 @@
       5432    # Postgres
       27017   # MongoDB
     ];
-    nat.enable = true;
+
+    nat = {
+      enable = true;
+      internalInterfaces = ["ve-+"];
+      externalInterface = "enp31s0";
+    };
   };
 
   nix.nixPath = [
