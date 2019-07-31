@@ -43,6 +43,7 @@ with lib;
       #fantasque-sans-mono # installed imperatively for alpha version
       fira-code
       corefonts
+      noto-fonts-cjk
       terminus_font
       font-awesome_5
       hasklig
