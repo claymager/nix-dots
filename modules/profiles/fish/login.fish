@@ -33,7 +33,6 @@ abbr npl nixops list
 
 abbr jn 'jupyter-notebook ^ /dev/null > /dev/null &'
 
-
 abbr icat kitty +kitten icat
 
 abbr g git
@@ -41,6 +40,7 @@ abbr glo git log --graph --oneline
 abbr gla git log --graph --oneline --all
 abbr gl git log
 abbr gco git checkout
+abbr gcm git commit -m \"
 
 abbr udm udisksctl mount -b
 abbr udu udisksctl unmount -b

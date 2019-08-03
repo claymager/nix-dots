@@ -1,15 +1,14 @@
 function haskellEnv
-  nix-shell -p "haskellPackages.ghcWithPackages (pkgs: with pkgs; [ $argv ])" --command "exec fish; return"
+  nix-shell -p "haskellPackages.ghcWithPackages (pkgs: with pkgs; [ $argv ])"
 end
 
 function pythonEnv --description 'start a nix-shell with the given python packages' --argument pythonVersion
   if set -q argv[2]
     set argv $argv[2..-1]
+  else
+    set -e argv
   end
-  for el in $argv ipython
-    set ppkgs $ppkgs "python"$pythonVersion"Packages.$el"
-  end
-  nix-shell -p $ppkgs --command "exec fish; return"
+  nix-shell -p "python$pythonVersion.withPackages (ps: with ps; [ $argv ipython ])"
 end
 
 function nixos-rebuild
