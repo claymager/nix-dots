@@ -12,6 +12,7 @@
     firewall.allowedTCPPorts = [
       5432    # Postgres
       27017   # MongoDB
+      32400   # Plex
     ];
 
     nat = {
@@ -34,6 +35,8 @@
       enable = true;
       bind_ip = "0.0.0.0";
     };
+
+    plex.enable = true;
 
     postgresql = {
       enable = true;
