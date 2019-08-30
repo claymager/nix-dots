@@ -33,6 +33,12 @@ in
     wget
   ];
 
+  location = lib.mkDefault {
+    latitude = 41.88;
+    longitude = -87.62;
+  };
+
+
   nix = {
     optimise.automatic = true;
     extraOptions = ''
@@ -59,8 +65,7 @@ in
   };
 
 
-  services.openssh.enable = true;
-  services.openssh.forwardX11 = true;
+  services.openssh = { enable = true; forwardX11 = true; };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

@@ -75,8 +75,6 @@ with lib;
       unclutter.enable = true;
       redshift = {
         enable = true;
-        latitude = "41.881";
-        longitude = "-87.623";
         temperature.night = 3000;
       };
     };

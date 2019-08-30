@@ -21,5 +21,10 @@
 
   hardware.bluetooth.enable = true;
 
+  location = {
+    latitude = 41.88;
+    longitude = -87.62;
+  };
+
   services.udev.extraRules = ''SUBSYSTEM=="tty", ATTRS{idVendor}=="feed", ATTRS{idProduct}=="1337", ATTRS{serial}=="0", MODE="0666", SYMLINK+="georgi"'';
 }
