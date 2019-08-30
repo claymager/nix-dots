@@ -36,6 +36,8 @@
       bind_ip = "0.0.0.0";
     };
 
+    pia = { enable = true; authFile = "${../private/pia.conf}"; };
+
     plex.enable = true;
 
     postgresql = {
