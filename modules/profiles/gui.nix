@@ -63,6 +63,9 @@ with lib;
             sha256 = "13bm7k3p6k7yq47nba08bn48cfv536k4ipnwwp1q1l2ydlp85r9d";
           };
           defaultUser = "john";
+          extraConfig = ''
+            session_color #000000
+          '';
         };
 
         windowManager = {
