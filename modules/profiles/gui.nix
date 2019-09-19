@@ -55,6 +55,15 @@ with lib;
         layout = "us";
         xkbVariant = "altgr-intl";
         desktopManager.xterm.enable = false;
+        config = ''
+          Section "InputClass"
+            Identifier "Trackball"
+            MatchIsPointer "yes"
+            MatchVendor "Kensington"
+            Driver "evdev"
+            Option "ButtonMapping" "3 8 1 4 5 0 0 2"
+          EndSection
+        '';
 
         displayManager.slim = {
           enable = true;
