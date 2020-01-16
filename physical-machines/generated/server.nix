@@ -9,6 +9,7 @@
     ];
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
+  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
@@ -17,8 +18,9 @@
       fsType = "ext4";
     };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/a77ddb2a-f0e9-4fb6-aa7e-50bca0885c9e";
+
+  fileSystems."/home/john" =
+    { device = "/dev/disk/by-uuid/6d4b0517-0d2b-4759-b7b6-d7f614060727";
       fsType = "ext4";
     };
 

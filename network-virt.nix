@@ -13,6 +13,6 @@ let
 
     };
 in
-{ frey = virt // { networking.hostName = "frey-v"; };
+{ fray = virt // { networking.hostName = "fray-v"; };
   tattletale = virt // { networking.hostName = "tattle-v"; };
 }

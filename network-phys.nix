@@ -6,7 +6,7 @@ in
 
 {
 
-  frey =
+  fray =
     {
       deployment.targetHost = "192.168.1.202";
       imports = [ ./physical-machines/laptop.nix ];

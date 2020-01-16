@@ -6,9 +6,9 @@
 {
   imports =
     [
-      ../logical-machines/frey.nix
+      ../logical-machines/fray.nix
      ../physical-machines/laptop.nix
     ];
 
-  networking.hostName = "frey";
+  networking.hostName = "fray";
 }
