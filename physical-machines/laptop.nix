@@ -20,7 +20,9 @@
     };
   };
 
-  services.udev.extraRules = ''SUBSYSTEM=="power_supply", KERNEL=="BAT0", ATTR{status}=="Discharging", ATTR{capacity}=="[0-19]", RUN+="${pkgs.systemd}/bin/systemctl hibernate"'';
+  services.udev.extraRules = ''
+    SUBSYSTEM=="power_supply", KERNEL=="BAT0", ATTR{status}=="Discharging", ATTR{capacity}=="[0-19]", RUN+="${pkgs.systemd}/bin/systemctl hibernate"
+  '';
 
   networking.interfaces.wlp2s0 = {
     useDHCP = true;

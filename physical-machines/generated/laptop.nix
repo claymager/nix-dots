@@ -8,30 +8,30 @@
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/2caed8ce-a0bd-4101-a31c-07c6296b6f94";
+    { device = "/dev/disk/by-uuid/1c23de79-f088-42cd-8f78-dd8fefa1cfe9";
       fsType = "ext4";
     };
 
-  boot.initrd.luks.devices."crypted".device = "/dev/disk/by-uuid/eaa9c773-58c9-4b1c-aff4-8ad6c0a30c30";
+  boot.initrd.luks.devices."crypted".device = "/dev/disk/by-uuid/4dabf654-32e7-448f-a373-e0c77b898ff5";
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/F53E-7DA3";
+      fsType = "vfat";
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/662cc0b3-cb3c-4068-b0f9-63a045c84860"; }
+    ];
 
   fileSystems."/home/john/tmp" =
     { device = "tmp";
       fsType = "tmpfs";
     };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/D8F7-31E3";
-      fsType = "vfat";
-    };
-
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/91e2624d-e2ba-47c4-9ea2-83e852cab3df"; }
-    ];
 
   nix.maxJobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
