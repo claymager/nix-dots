@@ -57,7 +57,7 @@
       passwordAuthentication = false;
       extraConfig = ''
         Match Address ::1
-                PermitRootLogin forced-commands-only
+                PermitRootLogin without-password
       '';
     };
   };
