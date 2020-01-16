@@ -21,3 +21,13 @@ function nix-shell
     set cmd (which nix-shell)
     $cmd --command "exec fish" $argv
 end
+
+function lock
+    udisksctl unmount -b /dev/mapper/luks-4223dbef-cc67-4cfe-88db-756ed55ddbcc
+    udisksctl lock -b /dev/disk/by-partuuid/92192711-ed9c-4432-b6b6-24c313250abc
+end
+
+function unlock
+    udisksctl unlock -b /dev/disk/by-partuuid/92192711-ed9c-4432-b6b6-24c313250abc
+    udisksctl mount -b /dev/mapper/luks-4223dbef-cc67-4cfe-88db-756ed55ddbcc
+end

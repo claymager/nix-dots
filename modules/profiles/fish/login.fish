@@ -14,6 +14,7 @@ abbr cp cp -i
 
 abbr ns nix-shell
 abbr nsp nix-shell -p
+abbr nsh nix-shell \(git home\)/shell.nix
 abbr nxt nixos-rebuild test
 abbr nxf nixos-rebuild test --fast
 abbr nxs nixos-rebuild switch

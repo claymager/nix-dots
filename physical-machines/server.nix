@@ -20,11 +20,22 @@
   ];
 
   hardware.bluetooth.enable = true;
+  environment.systemPackages = with pkgs; [
+    ddcutil   # software control of vga monitor
+  ];
+  programs.fish.interactiveShellInit = ''
+    function bright
+      sudo ddcutil --bus=9 setvcp 10 $argv
+    end
+  '';
 
   location = {
     latitude = 41.88;
     longitude = -87.62;
   };
 
-  services.udev.extraRules = ''SUBSYSTEM=="tty", ATTRS{idVendor}=="feed", ATTRS{idProduct}=="1337", ATTRS{serial}=="0", MODE="0666", SYMLINK+="georgi"'';
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="feed", ATTRS{idProduct}=="1337", ATTRS{serial}=="0", MODE="0666", SYMLINK+="georgi"
+  '';
 }
