@@ -23,6 +23,13 @@
     autoStart = true;
   };
 
+  hardware = {
+    opengl.driSupport32Bit = true;
+    pulseaudio.support32Bit = true;
+  };
+
+  environment.systemPackages = [ pkgs.steam ];
+
   networking = {
     firewall.allowedTCPPorts = [
       5432 # Postgres
