@@ -11,6 +11,7 @@
       <nixos-hardware/common/pc/ssd>
     ];
 
+  boot.supportedFilesystems = [ "ntfs" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [
