@@ -50,7 +50,7 @@ in
   users = {
     mutableUsers = false;
     users.root = {
-      openssh.authorizedKeys.keys = secrets.keys;
+      openssh.authorizedKeys.keys = secrets.rootKeys;
       initialHashedPassword = "$5$MqXY9HEJ6cgytphv$6mENYjITeTIm2nW8LzvUK4XC6.8Z31K/iXFs3a4TlX6";
     };
     extraUsers.john = {
