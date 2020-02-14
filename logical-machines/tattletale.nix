@@ -28,6 +28,8 @@
     pulseaudio.support32Bit = true;
   };
 
+  system.nixos.label="withSteam";
+
   environment.systemPackages = [ pkgs.steam ];
 
   networking = {
