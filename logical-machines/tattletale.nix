@@ -12,7 +12,7 @@
     firewall.allowedTCPPorts = [
       5432    # Postgres
       27017   # MongoDB
-      32400   # Plex
+      # 32400   # Plex
     ];
 
     nat = {
@@ -28,6 +28,11 @@
     "/nix/var/nix/profiles/per-user/root/channels"
   ];
 
+  networking.firewall.extraCommands = ''
+    # Roommate's IOT is annoying
+    ip46tables -A nixos-fw -p tcp -m tcp --tcp-flags SYN,ACK,FIN,RST SYN -m length --length 60 --dport 32469 -j nixos-fw-refuse
+  '';
+
   services = {
     xserver.videoDrivers = ["nvidia" ];
 
@@ -36,9 +41,7 @@
       bind_ip = "0.0.0.0";
     };
 
-    pia = { enable = true; authFile = "${../private/pia.conf}"; };
-
-    plex.enable = true;
+    # plex.enable = true;
 
     postgresql = {
       enable = true;

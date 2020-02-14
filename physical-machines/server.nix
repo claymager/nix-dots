@@ -11,14 +11,21 @@
       <nixos-hardware/common/pc/ssd>
     ];
 
-  boot.supportedFilesystems = [ "ntfs" ];
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelModules = [
-    "i2c-dev" # i2c bus utility for periferals
-    "nct6775" # hardware sensors
-    "amd-kvm" # amd virtualisation
-  ];
+  boot = {
+    supportedFilesystems = [ "ntfs" ];
+    kernelModules = [
+      "i2c-dev" # i2c bus utility for periferals
+      "nct6775" # hardware sensors
+      "amd-kvm" # amd virtualisation
+    ];
+
+    loader.systemd-boot = {
+      enable = true;
+      editor = false;
+      consoleMode = "max";
+    };
+    loader.efi.canTouchEfiVariables = true;
+  };
 
   hardware.bluetooth.enable = true;
   environment.systemPackages = with pkgs; [

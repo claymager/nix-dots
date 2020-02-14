@@ -33,6 +33,7 @@ with lib;
       xclip
       zathura
 
+      python38 # for conky and to avoid excessivejournalling
       notify-osd-customizable
       libnotify
       xorg.xmessage
