@@ -8,9 +8,16 @@
 
   users.extraUsers.john.hashedPassword = "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
+  containers.kenz = {
+    config = import ./kenz.nix;
+    autoStart = true;
+  };
+
   networking = {
     firewall.allowedTCPPorts = [
       5432    # Postgres
+      80
+      443
       27017   # MongoDB
       # 32400   # Plex
     ];
