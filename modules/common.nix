@@ -44,6 +44,17 @@ in {
     '';
   };
 
+  security.sudo.extraRules = [
+    { groups = ["wheel"]; runAs = "root"; commands =
+        [{ command = "/home/john/lab/macroOrnata/wrap.py";
+           options = ["NOPASSWD" ];
+         }];
+     }
+  ];
+  security.sudo.extraConfig = ''
+    %wheel	ALL=(root)	NOPASSWD: /home/john/lab/macroOrnata/wrap.py
+    '';
+
   users = {
     mutableUsers = false;
     users.root = {
@@ -54,13 +65,14 @@ in {
     extraUsers.john = {
       isNormalUser = true;
       home = "/home/john";
-      extraGroups = [ "wheel" "networkmanager" "vboxusers" "audio" "docker" ];
+      extraGroups = [ "wheel" "networkmanager" "vboxusers" "audio" "docker" "plugdev"];
       shell = "${pkgs.fish}/bin/fish";
       openssh.authorizedKeys.keys = secrets.keys;
       initialHashedPassword =
         "$5$eFedV/r0fU9/3XwL$89FMUzv.t.EosfEQhDvRSrvX3t4LeDRrqMxXpkJ/HH6";
       uid = 1000;
     };
+    groups = { plugdev = {}; };
   };
 
   services.openssh = { enable = true; };

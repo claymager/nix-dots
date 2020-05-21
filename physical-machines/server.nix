@@ -31,6 +31,7 @@
         Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
     '';
   hardware.bluetooth.enable = true;
+  hardware.openrazer.enable = true;
   hardware.pulseaudio.extraConfig = ''
     load-module module-echo-cancel
   '';

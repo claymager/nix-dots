@@ -30,6 +30,7 @@ with lib;
       notify-osd-customizable
       libnotify
       xorg.xmessage
+      xorg.xmodmap
     ];
 
     fonts.enableFontDir = true;
