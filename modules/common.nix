@@ -15,10 +15,8 @@ in
 
   profiles.fish.enable = true;
 
-  i18n = {
-    consoleKeyMap = "us";
-    defaultLocale = "en_US.UTF-8";
-  };
+  i18n.defaultLocale = "en_US.UTF-8";
+  console.keyMap = "us";
 
   time.timeZone = lib.mkDefault "America/Detroit";
 
@@ -71,6 +69,6 @@ in
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "19.09"; # Did you read the comment?
+  system.stateVersion = "20.03"; # Did you read the comment?
   system.fsPackages = [ pkgs.exfat ];
 }

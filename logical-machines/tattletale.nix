@@ -22,14 +22,13 @@
     };
   };
 
-  nix.nixPath = [
-    "nixpkgs=/nixpkgs"
-    "nixos-config=/etc/nixos/configuration.nix"
-    "/nix/var/nix/profiles/per-user/root/channels"
-  ];
+  # nix.nixPath = [
+  #   "local=/nixpkgs"
+  #   # "nixos-config=/etc/nixos/configuration.nix"
+  #   # "/nix/var/nix/profiles/per-user/root/channels"
+  # ];
 
   networking.firewall.extraCommands = ''
-    # Roommate's IOT is annoying
     ip46tables -A nixos-fw -p tcp -m tcp --tcp-flags SYN,ACK,FIN,RST SYN -m length --length 60 --dport 32469 -j nixos-fw-refuse
   '';
 
@@ -65,5 +64,5 @@
     };
   };
 
-  virtualisation.virtualbox.host.enable = true;
+  # virtualisation.virtualbox.host.enable = true;
 }
