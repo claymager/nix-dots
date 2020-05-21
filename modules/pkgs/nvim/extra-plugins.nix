@@ -91,4 +91,14 @@ in {
       sha256 = "1zlr761q12ds9z7xazrjfzqzrxd3z1dcxfq0p0vghwngrx8yqgyx";
 		};
 	};
+
+
+  "vim-syntax-shakespeare" = buildVimPlugin {
+    name = "vim-syntax-shakespeare";
+    src = fetchgit {
+      url = "https://github.com/pbrisbin/vim-syntax-shakespeare";
+      rev = "2f4f61eae55b8f1319ce3a086baf9b5ab57743f3";
+      sha256 = "0h79c3shzf08g7mckc7438vhfmxvzz2amzias92g5yn1xcj9gl5i";
+		};
+	};
 }

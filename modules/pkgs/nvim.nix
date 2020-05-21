@@ -47,6 +47,7 @@ let
     "vim-pandoc"
     "vim-pandoc-syntax"
     "vim-textobj-python"
+    "vim-syntax-shakespeare"
     "vimtex"
   ]; };
 
