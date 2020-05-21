@@ -1,5 +1,5 @@
 function haskellEnv
-  nix-shell -p "haskellPackages.ghcWithPackages (pkgs: with pkgs; [ $argv ])"
+  nix-shell -p cabal-install cabal2nix "haskellPackages.ghcWithPackages (pkgs: with pkgs; [ $argv ])"
 end
 
 function pythonEnv --description 'start a nix-shell with the given python packages' --argument pythonVersion
@@ -19,7 +19,10 @@ end
 
 function nix-shell
     set cmd (which nix-shell)
-    $cmd --command "exec fish" $argv
+    if not contains -- --pure $argv
+        set cmd $cmd --command "exec fish"
+    end
+    $cmd $argv
 end
 
 function lock

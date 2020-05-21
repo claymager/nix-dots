@@ -73,7 +73,11 @@ nnoremap gn :e #<CR>
 " Language specific
 " ----------------------------------------
 autocmd filetype python setlocal ts=4 sts=4 sw=4
+autocmd filetype python nnoremap <F4> :w<CR>:!python %:p<CR>
 autocmd filetype haskell setlocal ts=2 sts=2 sw=2
+autocmd filetype haskell nnoremap <F4> :w<CR>:!runghc %:p<CR>
+autocmd filetype scala nnoremap <F4> :w<CR>:!scala %:p<CR>
+autocmd filetype javascript nnoremap <F4> :w<CR>:!node %:p<CR>
 autocmd filetype nix setlocal ts=2 sts=2 sw=2
 autocmd filetype elm setlocal ts=2 sts=2 sw=2
 autocmd filetype c setlocal ts=4 sts=4 sw=4

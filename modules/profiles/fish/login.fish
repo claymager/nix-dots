@@ -3,6 +3,8 @@ for a in (abbr -l)
     abbr -e $a
 end
 
+abbr r ranger
+
 abbr ta 'todo.sh add "(A)'
 abbr tb 'todo.sh add "(B)'
 abbr tc 'todo.sh add "(C)'

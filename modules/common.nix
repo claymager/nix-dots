@@ -29,6 +29,8 @@ in
     htop
     tree
     wget
+    ranger
+    highlight
   ];
 
   location = lib.mkDefault {

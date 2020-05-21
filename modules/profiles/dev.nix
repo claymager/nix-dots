@@ -42,6 +42,7 @@ in
       pass
       pciutils
       todo-txt-cli
+      sqlite-interactive
     ] ++ optional cfg.python pythonPackage
     ++ optionals cfg.haskell haskellPackages
     ++ optional cfg.tex pkgs.texlive.combined.scheme-full

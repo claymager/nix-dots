@@ -34,6 +34,8 @@ let g:syntastic_check_on_wq              = 1
 " ''''
 set diffopt=vertical
 
+" NerdTree
+let NERDTreeIgnore=['\.o$', '\.hi$']
 " Bindings
 " ----------------------------------------
 nnoremap <leader>t :Tab /=<CR>
