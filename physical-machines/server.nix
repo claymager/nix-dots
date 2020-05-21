@@ -33,7 +33,7 @@
   ];
   programs.fish.interactiveShellInit = ''
     function bright
-      sudo ddcutil --bus=9 setvcp 10 $argv
+      sudo ddcutil --bus=5 setvcp 10 $argv
     end
   '';
 

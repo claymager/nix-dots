@@ -12,26 +12,22 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.tmpOnTmpfs = true;
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/259e7de5-c7e8-4b41-bc29-98cfe9b4a558";
+    { device = "/dev/disk/by-label/nixos";
       fsType = "ext4";
     };
 
 
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/dc712300-59a5-4894-967d-225b1fb2e4e3";
+    { device = "/dev/disk/by-label/home";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/63CA-051A";
+    { device = "/dev/disk/by-label/boot";
       fsType = "vfat";
-    };
-
-  fileSystems."/tmp" =
-    { device = "tmpfs";
-      fsType = "tmpfs";
     };
 
   fileSystems."/home/john/tmp" =
@@ -40,7 +36,7 @@
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/0260ac91-cf0a-4e36-bd51-2f9db4013fe2"; }
+    [ { device = "/dev/disk/by-label/swap"; }
     ];
 
   nix.maxJobs = lib.mkDefault 16;
