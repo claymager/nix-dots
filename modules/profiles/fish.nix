@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 
-with lib;
-{
+with lib; {
   options.profiles.fish.enable = mkEnableOption "fish profile";
 
   config = mkMerge [
@@ -29,8 +28,8 @@ with lib;
     })
 
     (mkIf
-      (!builtins.any (p: p == pkgs.kitty) config.environment.systemPackages)
-      { environment.variables.TERM = mkDefault "xterm-color"; }
-    )
+      (!builtins.any (p: p == pkgs.kitty) config.environment.systemPackages) {
+        environment.variables.TERM = mkDefault "xterm-color";
+      })
   ];
 }

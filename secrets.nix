@@ -1,4 +1,6 @@
-if builtins.pathExists ./private/secrets.nix then import ./private/secrets.nix else {
+if builtins.pathExists ./private/secrets.nix then
+  import ./private/secrets.nix
+else {
   hosts = "";
   keys = "";
   rootKeys = "";

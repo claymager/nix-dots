@@ -4,12 +4,11 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./generated/server.nix
-      <nixos-hardware/common/cpu/amd>
-      <nixos-hardware/common/pc/ssd>
-    ];
+  imports = [
+    ./generated/server.nix
+    <nixos-hardware/common/cpu/amd>
+    <nixos-hardware/common/pc/ssd>
+  ];
 
   boot = {
     supportedFilesystems = [ "ntfs" ];
@@ -28,9 +27,14 @@
   };
 
   hardware.bluetooth.enable = true;
-  environment.systemPackages = with pkgs; [
-    ddcutil   # software control of vga monitor
-  ];
+  hardware.pulseaudio.extraConfig = ''
+    load-module module-echo-cancel
+  '';
+
+  environment.systemPackages = with pkgs;
+    [
+      ddcutil # software control of vga monitor
+    ];
   programs.fish.interactiveShellInit = ''
     function bright
       sudo ddcutil --bus=5 setvcp 10 $argv
@@ -41,7 +45,6 @@
     latitude = 41.88;
     longitude = -87.62;
   };
-
 
   services.udev.extraRules = ''
     SUBSYSTEMS=="tty", ATTRS{idVendor}=="feed", ATTRS{idProduct}=="1337", ATTRS{serial}=="0", MODE="0666", SYMLINK+="georgi"

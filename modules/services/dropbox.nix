@@ -1,11 +1,7 @@
 { config, pkgs, lib, ... }:
 
-with lib;
-{
-  options.services.dropbox = {
-    enable = mkEnableOption "dropbox service";
-  };
-
+with lib; {
+  options.services.dropbox = { enable = mkEnableOption "dropbox service"; };
 
   config = mkIf config.services.dropbox.enable {
 
@@ -20,8 +16,10 @@ with lib;
       description = "Dropbox";
       wantedBy = [ "graphical-session.target" ];
       environment = {
-        QT_PLUGIN_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtPluginPrefix;
-        QML2_IMPORT_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtQmlPrefix;
+        QT_PLUGIN_PATH = "/run/current-system/sw/"
+          + pkgs.qt5.qtbase.qtPluginPrefix;
+        QML2_IMPORT_PATH = "/run/current-system/sw/"
+          + pkgs.qt5.qtbase.qtQmlPrefix;
         HOME = "%h/.dropbox";
       };
 

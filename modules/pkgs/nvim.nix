@@ -1,58 +1,61 @@
-with import <nixpkgs> {};
+with import <nixpkgs> { };
 
 let
   cfg = config.profiles.neovim;
 
-  extraPlugins = pkgs.callPackage ./nvim/extra-plugins.nix {};
+  extraPlugins = pkgs.callPackage ./nvim/extra-plugins.nix { };
 
-  genericPlugins = { names = [
-    # Style
-    "dracula-theme"
-    "vim-airline"
-    "vim-airline-themes"
+  genericPlugins = {
+    names = [
+      # Style
+      "dracula-theme"
+      "vim-airline"
+      "vim-airline-themes"
 
-    # File navigation
-    "ctrlp"
-    "nerdtree"
-    "fugitive"
-    "rhubarb"
-    "vim-gitgutter"
+      # File navigation
+      "ctrlp"
+      "nerdtree"
+      "fugitive"
+      "rhubarb"
+      "vim-gitgutter"
+      "vim-projectionist"
 
-    # Text navigation
-    "quick-scope"
-    "vim-surround"
-    "vim-textobj-indent"
-    "vim-textobj-line"
-    "vim-textobj-user"
-    "tabular"
+      # Text navigation
+      "quick-scope"
+      "vim-surround"
+      "vim-textobj-indent"
+      "vim-textobj-line"
+      "vim-textobj-user"
+      "tabular"
 
-    # IDE
-    "Syntastic"
-    "LanguageClient-neovim"
-    "vim-commentary"
+      # IDE
+      "Syntastic"
+      "LanguageClient-neovim"
+      "vim-commentary"
 
-    # Code completion
-    "ultisnips"
-    # "vim-skeleton"
-    "vim-snippets"
-    "deoplete"
-    "nvim-yarp"
-    "vim-hug-neovim-rpc"
+      # Code completion
+      "ultisnips"
+      # "vim-skeleton"
+      "vim-snippets"
+      "deoplete"
+      "nvim-yarp"
+      "vim-hug-neovim-rpc"
 
-    # Filetypes
-    "SimpylFold"
-    "elm-vim"
-    "vim-fish"
-    "vim-nix"
-    "vim-pandoc"
-    "vim-pandoc-syntax"
-    "vim-textobj-python"
-    "vim-syntax-shakespeare"
-    "vimtex"
-  ]; };
+      # Filetypes
+      "black"
+      "SimpylFold"
+      "elm-vim"
+      "vim-fish"
+      "vim-nix"
+      "vim-pandoc"
+      "vim-pandoc-syntax"
+      "vim-textobj-python"
+      "vim-syntax-shakespeare"
+      "vimtex"
+    ];
+  };
 
-in
-pkgs.neovim.override {
+in pkgs.neovim.override {
   extraPythonPackages = (ps: with ps; [ future ]);
   viAlias = true;
   configure = {

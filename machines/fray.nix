@@ -4,11 +4,7 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      ../logical-machines/fray.nix
-     ../physical-machines/laptop.nix
-    ];
+  imports = [ ../logical-machines/fray.nix ../physical-machines/laptop.nix ];
 
   networking.hostName = "fray";
 }

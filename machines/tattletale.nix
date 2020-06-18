@@ -5,10 +5,7 @@
 
 {
   imports =
-    [
-      ../logical-machines/tattletale.nix
-      ../physical-machines/server.nix
-    ];
+    [ ../logical-machines/tattletale.nix ../physical-machines/server.nix ];
 
   networking.hostName = "tattletale";
 }

@@ -15,9 +15,7 @@ with lib;
     };
 
     environment.systemPackages = with pkgs; [
-      (conky.override {
-        nvidiaSupport=true;
-      })
+      (conky.override { nvidiaSupport = true; })
       alsaUtils
       discord
       feh
@@ -33,7 +31,7 @@ with lib;
       xclip
       zathura
 
-      python38 # for conky and to avoid excessivejournalling
+      (python38.withPackages (ps: with ps; [ evdev ipython ]))
       notify-osd-customizable
       libnotify
       xorg.xmessage

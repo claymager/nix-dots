@@ -8,9 +8,7 @@ let
 
   secrets = import ./../secrets.nix;
 
-in
-
-{
+in {
   imports = (import ../modules/modules-list.nix);
 
   profiles.fish.enable = true;
@@ -38,7 +36,6 @@ in
     longitude = -87.62;
   };
 
-
   nix = {
     optimise.automatic = true;
     extraOptions = ''
@@ -51,19 +48,20 @@ in
     mutableUsers = false;
     users.root = {
       openssh.authorizedKeys.keys = secrets.rootKeys;
-      initialHashedPassword = "$5$MqXY9HEJ6cgytphv$6mENYjITeTIm2nW8LzvUK4XC6.8Z31K/iXFs3a4TlX6";
+      initialHashedPassword =
+        "$5$MqXY9HEJ6cgytphv$6mENYjITeTIm2nW8LzvUK4XC6.8Z31K/iXFs3a4TlX6";
     };
     extraUsers.john = {
       isNormalUser = true;
       home = "/home/john";
-      extraGroups = [ "wheel" "networkmanager" "vboxusers" "audio" "docker"];
+      extraGroups = [ "wheel" "networkmanager" "vboxusers" "audio" "docker" ];
       shell = "${pkgs.fish}/bin/fish";
       openssh.authorizedKeys.keys = secrets.keys;
-      initialHashedPassword = "$5$eFedV/r0fU9/3XwL$89FMUzv.t.EosfEQhDvRSrvX3t4LeDRrqMxXpkJ/HH6";
+      initialHashedPassword =
+        "$5$eFedV/r0fU9/3XwL$89FMUzv.t.EosfEQhDvRSrvX3t4LeDRrqMxXpkJ/HH6";
       uid = 1000;
     };
   };
-
 
   services.openssh = { enable = true; };
 

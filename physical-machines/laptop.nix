@@ -4,11 +4,7 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./generated/laptop.nix
-      <nixos-hardware/dell/xps/15-9550>
-    ];
+  imports = [ ./generated/laptop.nix <nixos-hardware/dell/xps/15-9550> ];
 
   boot.kernelParams = [ "acpi_rev_override" ];
 
@@ -26,11 +22,10 @@
 
   networking.interfaces.wlp2s0 = {
     useDHCP = true;
-    ipv6.addresses = [
-      { address = "fec0::2";
-        prefixLength = 10;
-      }
-    ];
+    ipv6.addresses = [{
+      address = "fec0::2";
+      prefixLength = 10;
+    }];
   };
 
 }

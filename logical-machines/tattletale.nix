@@ -6,7 +6,8 @@
   profiles.gui.enable = true;
   profiles.dev.enable = true;
 
-  users.extraUsers.john.hashedPassword = "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
+  users.extraUsers.john.hashedPassword =
+    "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
   containers.kenz = {
     config = import ./kenz.nix;
@@ -15,16 +16,16 @@
 
   networking = {
     firewall.allowedTCPPorts = [
-      5432    # Postgres
+      5432 # Postgres
       80
       443
-      27017   # MongoDB
+      27017 # MongoDB
       # 32400   # Plex
     ];
 
     nat = {
       enable = true;
-      internalInterfaces = ["ve-+"];
+      internalInterfaces = [ "ve-+" ];
       externalInterface = "enp31s0";
     };
   };
@@ -40,7 +41,7 @@
   '';
 
   services = {
-    xserver.videoDrivers = ["nvidia" ];
+    xserver.videoDrivers = [ "nvidia" ];
 
     mongodb = {
       enable = true;
