@@ -54,6 +54,7 @@ with lib;
         layout = "us";
         xkbVariant = "altgr-intl";
         desktopManager.xterm.enable = false;
+        exportConfiguration = true;
         config = ''
           Section "InputClass"
             Identifier "Trackball"

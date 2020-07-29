@@ -27,6 +27,9 @@
   };
 
   networking.hostId = "f985e230";
+  services.xserver.screenSection = ''
+        Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
+    '';
   hardware.bluetooth.enable = true;
   hardware.pulseaudio.extraConfig = ''
     load-module module-echo-cancel
@@ -38,7 +41,7 @@
     ];
   programs.fish.interactiveShellInit = ''
     function bright
-      sudo ddcutil --bus=5 setvcp 10 $argv
+      sudo ddcutil --bus=6 setvcp 10 $argv
     end
   '';
 
