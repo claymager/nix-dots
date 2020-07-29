@@ -27,12 +27,10 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.dropbox.enable = true;
-
     environment.systemPackages = with pkgs;
       [
         nixops
-        (import ../pkgs/nvim.nix)
+        vim
         neovim-remote
         mongodb-tools
         pass

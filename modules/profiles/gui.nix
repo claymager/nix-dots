@@ -17,19 +17,14 @@ with lib;
     environment.systemPackages = with pkgs; [
       (conky.override { nvidiaSupport = true; })
       alsaUtils
-      discord
       feh
       google-chrome
-      kitty
       pavucontrol
       playerctl
-      qutebrowser
       scrot
-      slack
       spotify
       vlc
       xclip
-      zathura
 
       (python38.withPackages (ps: with ps; [ evdev ipython ]))
       notify-osd-customizable
@@ -39,7 +34,7 @@ with lib;
 
     fonts.enableFontDir = true;
     fonts.fonts = with pkgs; [
-      #fantasque-sans-mono # installed imperatively for alpha version
+      #fantasque-sans-mono
       fira-code
       corefonts
       noto-fonts-cjk
