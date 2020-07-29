@@ -13,16 +13,6 @@
   boot.extraModulePackages = [ ];
   boot.tmpOnTmpfs = true;
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
-    fsType = "ext4";
-  };
-
-  fileSystems."/home" = {
-    device = "/dev/disk/by-label/home";
-    fsType = "ext4";
-  };
-
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/boot";
     fsType = "vfat";
@@ -32,6 +22,27 @@
     device = "tmpfs";
     fsType = "tmpfs";
   };
+
+  fileSystems."/home/john/lab" = {
+    device = "npool/lab";
+    fsType = "zfs";
+  };
+
+  fileSystems."/" =
+    { device = "rpool/root/nixos";
+      fsType = "zfs";
+    };
+
+  fileSystems."/home" =
+    { device = "rpool/home";
+      fsType = "zfs";
+    };
+
+  fileSystems."/nix" =
+    { device = "npool/nix";
+      fsType = "zfs";
+    };
+
 
   swapDevices = [{ device = "/dev/disk/by-label/swap"; }];
 

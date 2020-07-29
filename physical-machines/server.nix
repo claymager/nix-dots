@@ -11,7 +11,7 @@
   ];
 
   boot = {
-    supportedFilesystems = [ "ntfs" ];
+    supportedFilesystems = [ "zfs" "ntfs" ];
     kernelModules = [
       "i2c-dev" # i2c bus utility for periferals
       "nct6775" # hardware sensors
@@ -26,6 +26,7 @@
     loader.efi.canTouchEfiVariables = true;
   };
 
+  networking.hostId = "f985e230";
   hardware.bluetooth.enable = true;
   hardware.pulseaudio.extraConfig = ''
     load-module module-echo-cancel
