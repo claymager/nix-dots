@@ -74,6 +74,7 @@ with lib;
         enable = true;
         temperature.night = 3000;
       };
+
     };
 
   };

@@ -41,6 +41,7 @@
   '';
 
   services = {
+    cron.enable = true;
     xserver.videoDrivers = [ "nvidia" ];
 
     mongodb = {

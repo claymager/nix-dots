@@ -32,6 +32,7 @@ in {
         nixops
         vim
         neovim-remote
+        ctags
         mongodb-tools
         pass
         pciutils
