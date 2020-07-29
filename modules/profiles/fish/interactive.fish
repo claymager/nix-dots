@@ -38,5 +38,3 @@ end
 function import
     echo "You're still in fish!"
 end
-
-fish_vi_key_bindings
