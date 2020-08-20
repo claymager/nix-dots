@@ -11,7 +11,6 @@ in
   imports = [ ../modules/common.nix ];
 
   services = {
-    pia = { enable = true; authFile = "${../private/pia.conf}"; };
     openssh.forwardX11 = true;
   };
 
