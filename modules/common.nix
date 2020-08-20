@@ -21,14 +21,15 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
-    bat
-    git
+    # bat
+    # git
     gnupg
     htop
-    tree
+    # tree
     wget
     ranger
-    highlight
+    nixFlakes
+    # highlight
   ];
 
   location = lib.mkDefault {
@@ -38,12 +39,13 @@ in {
 
   nix = {
     optimise.automatic = true;
+    package = pkgs.nixUnstable;
     extraOptions = ''
       keep-outputs = true
       keep-derivations = true
+      experimental-features = nix-command flakes
     '';
   };
-
 
   users = {
     mutableUsers = false;

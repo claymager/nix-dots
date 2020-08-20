@@ -25,6 +25,7 @@ with lib;
       spotify
       vlc
       xclip
+      discord
 
       (python38.withPackages (ps: with ps; [ evdev ipython ]))
       notify-osd-customizable
