@@ -44,16 +44,6 @@ in {
     '';
   };
 
-  security.sudo.extraRules = [
-    { groups = ["wheel"]; runAs = "root"; commands =
-        [{ command = "/home/john/lab/macroOrnata/wrap.py";
-           options = ["NOPASSWD" ];
-         }];
-     }
-  ];
-  security.sudo.extraConfig = ''
-    %wheel	ALL=(root)	NOPASSWD: /home/john/lab/macroOrnata/wrap.py
-    '';
 
   users = {
     mutableUsers = false;
