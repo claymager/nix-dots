@@ -8,7 +8,8 @@
 
   boot.initrd.availableKernelModules =
     [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.kernelParams = [ "raid0.default_layout=2" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
   boot.tmpOnTmpfs = true;
@@ -23,13 +24,19 @@
     fsType = "tmpfs";
   };
 
-  fileSystems."/home/john/lab" = {
-    device = "npool/lab";
-    fsType = "zfs";
-  };
+#  fileSystems."/home/john/lab" = {
+#    device = "npool/lab";
+#    fsType = "zfs";
+#  };
+
+#  fileSystems."/" =
+#    { device = "rpool/root/nixos";
+#      fsType = "zfs";
+#    };
+
 
   fileSystems."/" =
-    { device = "rpool/root/nixos";
+    { device = "npool/root";
       fsType = "zfs";
     };
 
@@ -38,11 +45,20 @@
       fsType = "zfs";
     };
 
-  fileSystems."/nix" =
-    { device = "npool/nix";
+  fileSystems."/var" =
+    { device = "npool/var";
       fsType = "zfs";
     };
 
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/b4df8f6a-f05f-4811-a5ea-90c675e2d980";
+      fsType = "ext4";
+    };
+
+  fileSystems."/home/john/lab" =
+    { device = "/dev/disk/by-uuid/dd7e31f5-ef3c-4f41-9e3a-58a27986de9b";
+      fsType = "ext4";
+    };
 
   swapDevices = [{ device = "/dev/disk/by-label/swap"; }];
 
