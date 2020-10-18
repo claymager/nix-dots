@@ -6,13 +6,9 @@
       enable = true;
       adminAddr = "jmageriii@gmail.com";
       virtualHosts = {
-        "kenz.lan".locations."/".extraConfig = ''
-          ProxyPass http://kenz.lan:3000/
-          ProxyPreserveHost On
-        '';
-
+        "jellyfin.lan".locations."/".proxyPass = "http://jellyfin.lan:8096/";
+        "kenz.lan".locations."/".proxyPass = "http://localhost:3000/" ;
         "lisa.lan" = { documentRoot = "/home"; };
-
         "tattletale.lan" = { documentRoot = "/webroot"; };
       };
     };
