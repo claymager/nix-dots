@@ -20,10 +20,10 @@ in {
 
   nixpkgs.config.allowUnfree = true;
 
+  programs.gnupg.agent.enable = true;
   environment.systemPackages = with pkgs; [
     # bat
     # git
-    gnupg
     htop
     # tree
     wget
