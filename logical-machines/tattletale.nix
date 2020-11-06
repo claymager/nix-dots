@@ -44,8 +44,9 @@
     firewall.allowedTCPPorts = [
       5432 # Postgres
       80
-      443
+      # 443
       27017 # MongoDB
+      # 8096 # jellyfin
       # 32400   # Plex
     ];
 
