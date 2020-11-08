@@ -9,26 +9,49 @@
   users.extraUsers.john.hashedPassword =
     "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
-  containers.sverige = {
-    path = ./sverige.nix;
-    enableTun = true;
-    privateNetwork = true;
-    hostAddress = "192.168.100.10";
-    localAddress = "192.168.100.11";
-    autoStart = false;
-  };
-
-  containers.jellyfin = {
-    path = ./jellyfin.nix;
-    bindMounts = {
-      "/media/movies" = { hostPath = "/home/john/videos"; isReadOnly = false; };
+  containers = rec {
+    sverige = {
+      path = ./sverige.nix;
+      enableTun = true;
+      privateNetwork = true;
+      hostAddress = "192.168.100.10";
+      localAddress = "192.168.100.11";
+      autoStart = false;
     };
-    autoStart = true;
-  };
 
-  containers.kenz = {
-    path = ./kenz.nix;
-    autoStart = true;
+    jellyfin = {
+      path = ./jellyfin.nix;
+      bindMounts = {
+        "/media/movies" = { hostPath = "/home/john/videos"; isReadOnly = false; };
+      };
+      privateNetwork = true;
+      hostAddress = "10.0.1.1";
+      localAddress = "10.0.1.2";
+      autoStart = false;
+    };
+
+    kenz = {
+      config =
+        {config, pkgs, ... }:
+        {
+          services.httpd = {
+            enable = true;
+            adminAddr = "jmageriii@gmail.com";
+            virtualHosts = {
+              "tattletale.lan".locations."jellyfin".proxyPass = "http://${jellyfin.localAddress}:8096";
+              "notebook.tattletale.lan".locations."/".proxyPass = "http://${kenz.hostAddress}:3000";
+              "tattletale.lan".locations."root" = { documentRoot = "/"; };
+              # "tattletale.lan" = { documentRoot = "/home"; };
+            };
+          };
+          networking.firewall.allowedTCPPorts = [ 80 443 ];
+        };
+      autoStart = true;
+      privateNetwork = true;
+      forwardPorts = [ { hostPort = 80; } {hostPort = 443; } ];
+      hostAddress = "10.0.2.1";
+      localAddress = "10.0.2.2";
+    };
   };
 
   hardware = {
