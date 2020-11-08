@@ -35,9 +35,6 @@
     opengl.driSupport32Bit = true;
     pulseaudio.support32Bit = true;
   };
-
-  system.nixos.label="withSteam";
-
   environment.systemPackages = [ pkgs.steam ];
 
   networking = {
@@ -75,8 +72,6 @@
       enable = true;
       bind_ip = "0.0.0.0";
     };
-
-    # plex.enable = true;
 
     postgresql = {
       enable = true;
