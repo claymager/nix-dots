@@ -72,6 +72,8 @@
       80
       # 443
       27017 # MongoDB
+      3000
+      # 8888 # jupyter notebook
       # 8096 # jellyfin
       # 32400   # Plex
     ];
@@ -94,6 +96,8 @@
   '';
 
   services = {
+    grafana.enable = true;
+
     cron.enable = true;
     xserver.videoDrivers = [ "nvidia" ];
 
