@@ -51,6 +51,7 @@
           };
           networking.firewall.allowedTCPPorts = [ 80 443 ];
         };
+      ephemeral = true;
       autoStart = true;
       privateNetwork = true;
       forwardPorts = [ { hostPort = 80; } {hostPort = 443; } ];
