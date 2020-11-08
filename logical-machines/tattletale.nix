@@ -11,7 +11,7 @@
 
   containers = rec {
     sverige = {
-      path = ./sverige.nix;
+      config = import ./sverige.nix;
       enableTun = true;
       privateNetwork = true;
       hostAddress = "192.168.100.10";
@@ -20,7 +20,7 @@
     };
 
     jellyfin = {
-      path = ./jellyfin.nix;
+      config = import ./jellyfin.nix;
       bindMounts = {
         "/media/movies" = { hostPath = "/home/john/videos"; isReadOnly = false; };
       };
