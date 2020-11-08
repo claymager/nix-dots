@@ -10,7 +10,7 @@
     "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
   containers.sverige = {
-    config = import ./sverige.nix;
+    path = ./sverige.nix;
     enableTun = true;
     privateNetwork = true;
     hostAddress = "192.168.100.10";
@@ -19,7 +19,7 @@
   };
 
   containers.jellyfin = {
-    config = import ./jellyfin.nix;
+    path = ./jellyfin.nix;
     bindMounts = {
       "/media/movies" = { hostPath = "/home/john/videos"; isReadOnly = false; };
     };
@@ -27,7 +27,7 @@
   };
 
   containers.kenz = {
-    config = import ./kenz.nix;
+    path = ./kenz.nix;
     autoStart = true;
   };
 
