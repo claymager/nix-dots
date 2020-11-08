@@ -32,9 +32,6 @@
     '';
   hardware.bluetooth.enable = true;
   hardware.openrazer.enable = true;
-  hardware.pulseaudio.extraConfig = ''
-    load-module module-echo-cancel
-  '';
 
   environment.systemPackages = with pkgs;
     [
