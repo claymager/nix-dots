@@ -49,12 +49,12 @@
               "lisa.lan".globalRedirect = "http://tattletale.lan/";
             };
           };
-          networking.firewall.allowedTCPPorts = [ 80 443 ];
+          networking.firewall.allowedTCPPorts = [ 80 443 8888 ];
         };
       ephemeral = true;
       autoStart = true;
       privateNetwork = true;
-      forwardPorts = [ { hostPort = 80; } {hostPort = 443; } ];
+      forwardPorts = [ { hostPort = 80; } {hostPort = 443; } {hostPort = 8888; }];
       hostAddress = "10.0.2.1";
       localAddress = "10.0.2.2";
     };
