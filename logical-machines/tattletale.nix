@@ -38,10 +38,15 @@
             enable = true;
             adminAddr = "jmageriii@gmail.com";
             virtualHosts = {
-              "tattletale.lan".locations."jellyfin".proxyPass = "http://${jellyfin.localAddress}:8096";
-              "notebook.tattletale.lan".locations."/".proxyPass = "http://${kenz.hostAddress}:3000";
-              "tattletale.lan".locations."root" = { documentRoot = "/"; };
-              # "tattletale.lan" = { documentRoot = "/home"; };
+              "tattletale.lan" = {
+                serverAliases = [ "kenz.lan" ];
+                documentRoot = "/home";
+                servedDirs = [{ dir = "/etc"; urlPath = "/etc"; }];
+                locations."/notebook".proxyPass = "http://${kenz.localAddress}:8888/";
+              };
+              "jellyfin.tattletale.lan".locations."/".proxyPass = "http://${jellyfin.localAddress}:8096/";
+              "notebook.tattletale.lan".locations."/".proxyPass = "http://${kenz.localAddress}:8888/";
+              "lisa.lan".globalRedirect = "http://tattletale.lan/";
             };
           };
           networking.firewall.allowedTCPPorts = [ 80 443 ];
