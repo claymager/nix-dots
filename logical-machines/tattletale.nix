@@ -9,7 +9,16 @@
   users.extraUsers.john.hashedPassword =
     "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
-  containers = rec {
+  containers = let
+    onSubnet = id: vm:
+      vm // {
+        privateNetwork = true;
+        hostBridge = "br0";
+        localAddress = "192.168.5." + builtins.toString id + "/24";
+        localAddress6 = "fc00::" + builtins.toString id + "/7";
+        autoStart = true;
+      };
+  in rec {
     sverige = {
       config = import ./sverige.nix;
       enableTun = true;
@@ -19,16 +28,12 @@
       autoStart = false;
     };
 
-    jellyfin = {
+    jellyfin = onSubnet 5 {
       config = import ./jellyfin.nix;
       bindMounts."/media/movies".hostPath = "/home/john/videos";
-      privateNetwork = true;
-      hostAddress = "10.0.1.1";
-      localAddress = "10.0.1.2";
-      autoStart = true;
     };
 
-    apacheEtc = {
+    apacheEtc = onSubnet 4 {
       config = { config, pkgs, ... }: {
         services.httpd = {
           adminAddr = "jmageriii@gmail.com";
@@ -43,19 +48,16 @@
         networking.firewall.allowedTCPPorts = [ 80 443 ];
       };
       ephemeral = true;
-      autoStart = true;
-      privateNetwork = true;
-      hostAddress = "10.0.3.1";
-      localAddress = "10.0.3.2";
     };
 
-    jitsiCont = {
+    jitsiCont = onSubnet 3 {
       config = { config, pkgs, ... }: {
         services.jitsi-meet = {
           enable = true;
           hostName = "jitsi.lan";
         };
         services.jitsi-videobridge.openFirewall = true;
+        networking.defaultGateway = "192.168.5.1";
         networking.firewall.allowedTCPPorts = [ 80 443 ];
         security.acme = {
           email = "jmageriii@gmail.com";
@@ -63,10 +65,6 @@
         };
       };
       ephemeral = true;
-      autoStart = true;
-      privateNetwork = true;
-      hostAddress = "10.0.4.1";
-      localAddress = "10.0.4.2";
     };
 
     kenz = {
@@ -114,8 +112,8 @@
       privateNetwork = true;
       forwardPorts =
         [ { hostPort = 80; } { hostPort = 443; } { hostPort = 8888; } ];
-      hostAddress = "10.0.2.1";
-      localAddress = "10.0.2.2";
+      hostBridge = "br0";
+      localAddress = "192.168.5.2/24";
     };
   };
 
