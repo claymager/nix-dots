@@ -61,32 +61,28 @@
           enable = true;
           statusPage = true;
 
-          virtualHosts = {
-            "tattletale.lan" = {
+          virtualHosts = let
+            forceSSL = vhost:
+              vhost // {
+                forceSSL = true;
+                enableACME = true;
+              };
+            proxy = address:
+              forceSSL { locations."/".proxyPass = "http://${address}/"; };
+          in {
+            "tattletale.lan" = forceSSL {
               root = "/var/log/nginx";
-              locations."/jellyfin/".proxyPass = "http://${jellyfin.localAddress}:8096/";
-              locations."/apache/".proxyPass = "http://${apacheEtc.localAddress}/";
-              addSSL = true;
-              enableACME = true;
+              locations."/jellyfin/".proxyPass =
+                "http://${jellyfin.localAddress}:8096/";
+              locations."/apache/".proxyPass =
+                "http://${apacheEtc.localAddress}/";
             };
-            "apache.tattletale.lan" = {
-              locations."/".proxyPass = "http://${apacheEtc.localAddress}/";
-              addSSL = true;
-              enableACME = true;
-            };
-            "jellyfin.tattletale.lan" = {
-              locations."/".proxyPass = "http://${jellyfin.localAddress}:8096/";
-              addSSL = true;
-              enableACME = true;
-            };
-            "notebook.tattletale.lan" = {
-              locations."/".proxyPass = "http://${kenz.localAddress}:3000/";
-            };
-            "kenz.lan" = {
+            "apache.tattletale.lan" = proxy apacheEtc.localAddress;
+            "jellyfin.tattletale.lan" = proxy "${jellyfin.localAddress}:8096";
+            "notebook.tattletale.lan" = proxy "${kenz.localAddress}:3000";
+            "kenz.lan" = forceSSL {
               root = "/www";
               default = true;
-              addSSL = true;
-              enableACME = true;
             };
           };
         };
