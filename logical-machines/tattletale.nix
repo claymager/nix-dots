@@ -73,6 +73,7 @@
           email = "jmageriii@gmail.com";
           acceptTerms = true;
         };
+        networking.defaultGateway = "192.168.5.1";
         services.nginx = {
           enable = true;
           statusPage = true;
@@ -135,11 +136,28 @@
       # 32400   # Plex
     ];
 
+    bridges.br0.interfaces = [ ];
+
     nat = {
       enable = true;
-      internalInterfaces = [ "ve-+" ];
+      internalInterfaces = [ "ve-+" "br0" ];
       externalInterface = "enp31s0";
     };
+
+    interfaces.br0 = {
+      ipv4.addresses = [{
+        address = "192.168.5.1";
+        prefixLength = 24;
+      }];
+      ipv6.addresses = [{
+        address = "fc00::1";
+        prefixLength = 7;
+      }];
+    };
+
+    firewall.extraCommands = ''
+      ip46tables -A nixos-fw -p tcp -m tcp --tcp-flags SYN,ACK,FIN,RST SYN -m length --length 60 --dport 32469 -j nixos-fw-refuse
+    '';
   };
 
   # nix.nixPath = [
@@ -147,10 +165,6 @@
   #   # "nixos-config=/etc/nixos/configuration.nix"
   #   # "/nix/var/nix/profiles/per-user/root/channels"
   # ];
-
-  networking.firewall.extraCommands = ''
-    ip46tables -A nixos-fw -p tcp -m tcp --tcp-flags SYN,ACK,FIN,RST SYN -m length --length 60 --dport 32469 -j nixos-fw-refuse
-  '';
 
   services = {
     grafana.enable = true;
