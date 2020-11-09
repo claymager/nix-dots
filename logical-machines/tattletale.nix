@@ -10,11 +10,24 @@
     "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
   containers = let
+    subnet = "192.168.5.";
+    hostConfig = config;
+
+    composeConfigs = conf: new:
+      { config, pkgs, ... }@args:
+      lib.recursiveUpdate (conf args) (new args);
+
     onSubnet = id: vm:
       lib.recursiveUpdate vm {
         privateNetwork = true;
+        config = composeConfigs vm.config ({ config, pkgs, ... }: {
+          networking.defaultGateway = "${subnet}1";
+          networking.extraHosts = ''
+            ${subnet}1  ${hostConfig.networking.hostName};
+          '';
+        });
         hostBridge = "br0";
-        localAddress = "192.168.5." + builtins.toString id + "/24";
+        localAddress = subnet + builtins.toString id + "/24";
         localAddress6 = "fc00::" + builtins.toString id + "/7";
         autoStart = true;
       };
@@ -57,7 +70,6 @@
           hostName = "jitsi.lan";
         };
         services.jitsi-videobridge.openFirewall = true;
-        networking.defaultGateway = "192.168.5.1";
         networking.firewall.allowedTCPPorts = [ 80 443 ];
         security.acme = {
           email = "jmageriii@gmail.com";
@@ -73,37 +85,41 @@
           email = "jmageriii@gmail.com";
           acceptTerms = true;
         };
-        networking.defaultGateway = "192.168.5.1";
         services.nginx = {
           enable = true;
           statusPage = true;
           recommendedProxySettings = true;
+          recommendedGzipSettings = true;
+          recommendedOptimisation = true;
 
           virtualHosts = let
+            inherit (builtins) split head toString;
+
             forceSSL = vhost:
               vhost // {
-                forceSSL = true;
+                addSSL = true;
                 enableACME = true;
               };
+
+            ipv4 = vm: head (split "/" vm.localAddress);
+
             proxy = vm: port:
-            let
-              inherit (builtins) split head toString;
-              ipv4 = head (split "/" vm.localAddress);
-              target = "http://${ipv4}:${toString port}/";
-            in
-              forceSSL { locations."/".proxyPass = target; };
+              forceSSL {
+                locations."/".proxyPass = "http://${ipv4 vm}:${toString port}/";
+              };
           in {
             "tattletale.lan" = forceSSL {
               root = "/var/log/nginx";
               locations."/jellyfin/".proxyPass =
-                "http://${jellyfin.localAddress}:8096/";
-              locations."/apache/".proxyPass =
-                "http://${apacheEtc.localAddress}/";
+                "http://${ipv4 jellyfin}:8096/";
+              locations."/apache/".proxyPass = "http://${ipv4 apacheEtc}/";
             };
             "apache.tattletale.lan" = proxy apacheEtc 80;
-            "jellyfin.tattletale.lan" = proxy jellyfin 8096;
+            "jellyfin.tattletale.lan" = proxy jellyfin 8096 // {
+              serverAliases = [ "lisa.lan" "jellyfin.lan" ];
+            };
             "notebook.tattletale.lan" = proxy kenz 3000;
-            "jitsi.lan" = proxy jitsiCont 80;
+            "jitsi.lan".locations."/".proxyPass = "https://${ipv4 jitsiCont}/";
             "kenz.lan" = forceSSL {
               root = "/www";
               default = true;
