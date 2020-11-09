@@ -22,39 +22,87 @@
     jellyfin = {
       config = import ./jellyfin.nix;
       bindMounts = {
-        "/media/movies" = { hostPath = "/home/john/videos"; isReadOnly = false; };
+        "/media/movies" = {
+          hostPath = "/home/john/videos";
+          isReadOnly = false;
+        };
       };
       privateNetwork = true;
       hostAddress = "10.0.1.1";
       localAddress = "10.0.1.2";
-      autoStart = false;
+      autoStart = true;
     };
 
-    kenz = {
-      config =
-        {config, pkgs, ... }:
-        {
-          services.httpd = {
-            enable = true;
-            adminAddr = "jmageriii@gmail.com";
-            virtualHosts = {
-              "tattletale.lan" = {
-                serverAliases = [ "kenz.lan" ];
-                documentRoot = "/home";
-                servedDirs = [{ dir = "/etc"; urlPath = "/etc"; }];
-                locations."/notebook".proxyPass = "http://${kenz.localAddress}:8888/";
-              };
-              "jellyfin.tattletale.lan".locations."/".proxyPass = "http://${jellyfin.localAddress}:8096/";
-              "notebook.tattletale.lan".locations."/".proxyPass = "http://${kenz.localAddress}:8888/";
-              "lisa.lan".globalRedirect = "http://tattletale.lan/";
-            };
+    apacheEtc = {
+      config = {config, pkgs, ... }: {
+        services.httpd = {
+          adminAddr = "jmageriii@gmail.com";
+          enable = true;
+          virtualHosts.default = {
+            servedDirs = [ { dir= "/"; urlPath= "/"; } ];
           };
-          networking.firewall.allowedTCPPorts = [ 80 443 8888 ];
         };
+        networking.firewall.allowedTCPPorts = [ 80 443 ];
+      };
       ephemeral = true;
       autoStart = true;
       privateNetwork = true;
-      forwardPorts = [ { hostPort = 80; } {hostPort = 443; } {hostPort = 8888; }];
+      hostAddress = "10.0.3.1";
+      localAddress = "10.0.3.2";
+    };
+
+    kenz = {
+      config = { config, pkgs, ... }: {
+        security.acme = {
+          email = "jmageriii@gmail.com";
+          acceptTerms = true;
+        };
+        services.nginx = {
+          enable = true;
+          statusPage = true;
+
+          virtualHosts = {
+            "tattletale.lan" = {
+              root = "/var/log/nginx";
+              locations."/jellyfin/".proxyPass = "http://${jellyfin.localAddress}:8096/";
+              locations."/apache/".proxyPass = "http://${apacheEtc.localAddress}/";
+              addSSL = true;
+              enableACME = true;
+            };
+            "apache.tattletale.lan" = {
+              locations."/".proxyPass = "http://${apacheEtc.localAddress}/";
+              addSSL = true;
+              enableACME = true;
+            };
+            "jellyfin.tattletale.lan" = {
+              locations."/".proxyPass = "http://${jellyfin.localAddress}:8096/";
+              addSSL = true;
+              enableACME = true;
+            };
+            "notebook.tattletale.lan" = {
+              locations."/".proxyPass = "http://${kenz.localAddress}:3000/";
+            };
+            "kenz.lan" = {
+              root = "/www";
+              default = true;
+              addSSL = true;
+              enableACME = true;
+            };
+          };
+        };
+        networking.firewall.allowedTCPPorts = [ 80 443 8888 ];
+      };
+      bindMounts = {
+        "/www" = {
+          hostPath = "/home/john/tmp";
+          isReadOnly = true;
+        };
+      };
+      ephemeral = true;
+      autoStart = true;
+      privateNetwork = true;
+      forwardPorts =
+        [ { hostPort = 80; } { hostPort = 443; } { hostPort = 8888; } ];
       hostAddress = "10.0.2.1";
       localAddress = "10.0.2.2";
     };
