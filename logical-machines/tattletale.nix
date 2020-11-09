@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [ ../modules/common.nix ];
@@ -11,7 +11,7 @@
 
   containers = let
     onSubnet = id: vm:
-      vm // {
+      lib.recursiveUpdate vm {
         privateNetwork = true;
         hostBridge = "br0";
         localAddress = "192.168.5." + builtins.toString id + "/24";
