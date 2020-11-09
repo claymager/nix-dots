@@ -49,6 +49,26 @@
       localAddress = "10.0.3.2";
     };
 
+    jitsiCont = {
+      config = { config, pkgs, ... }: {
+        services.jitsi-meet = {
+          enable = true;
+          hostName = "jitsi.lan";
+        };
+        services.jitsi-videobridge.openFirewall = true;
+        networking.firewall.allowedTCPPorts = [ 80 443 ];
+        security.acme = {
+          email = "jmageriii@gmail.com";
+          acceptTerms = true;
+        };
+      };
+      ephemeral = true;
+      autoStart = true;
+      privateNetwork = true;
+      hostAddress = "10.0.4.1";
+      localAddress = "10.0.4.2";
+    };
+
     kenz = {
       config = { config, pkgs, ... }: {
         security.acme = {
@@ -78,6 +98,7 @@
             "apache.tattletale.lan" = proxy apacheEtc.localAddress;
             "jellyfin.tattletale.lan" = proxy "${jellyfin.localAddress}:8096";
             "notebook.tattletale.lan" = proxy "${kenz.localAddress}:3000";
+            "jitsi.lan" = proxy jitsiCont.localAddress;
             "kenz.lan" = forceSSL {
               root = "/www";
               default = true;
