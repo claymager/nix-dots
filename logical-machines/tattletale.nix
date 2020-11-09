@@ -78,6 +78,7 @@
         services.nginx = {
           enable = true;
           statusPage = true;
+          recommendedProxySettings = true;
 
           virtualHosts = let
             forceSSL = vhost:
