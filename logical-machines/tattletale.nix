@@ -85,8 +85,13 @@
                 forceSSL = true;
                 enableACME = true;
               };
-            proxy = address:
-              forceSSL { locations."/".proxyPass = "http://${address}/"; };
+            proxy = vm: port:
+            let
+              inherit (builtins) split head toString;
+              ipv4 = head (split "/" vm.localAddress);
+              target = "http://${ipv4}:${toString port}/";
+            in
+              forceSSL { locations."/".proxyPass = target; };
           in {
             "tattletale.lan" = forceSSL {
               root = "/var/log/nginx";
@@ -95,10 +100,10 @@
               locations."/apache/".proxyPass =
                 "http://${apacheEtc.localAddress}/";
             };
-            "apache.tattletale.lan" = proxy apacheEtc.localAddress;
-            "jellyfin.tattletale.lan" = proxy "${jellyfin.localAddress}:8096";
-            "notebook.tattletale.lan" = proxy "${kenz.localAddress}:3000";
-            "jitsi.lan" = proxy jitsiCont.localAddress;
+            "apache.tattletale.lan" = proxy apacheEtc 80;
+            "jellyfin.tattletale.lan" = proxy jellyfin 8096;
+            "notebook.tattletale.lan" = proxy kenz 3000;
+            "jitsi.lan" = proxy jitsiCont 80;
             "kenz.lan" = forceSSL {
               root = "/www";
               default = true;
