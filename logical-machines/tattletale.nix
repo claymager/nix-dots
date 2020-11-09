@@ -21,12 +21,7 @@
 
     jellyfin = {
       config = import ./jellyfin.nix;
-      bindMounts = {
-        "/media/movies" = {
-          hostPath = "/home/john/videos";
-          isReadOnly = false;
-        };
-      };
+      bindMounts."/media/movies".hostPath = "/home/john/videos";
       privateNetwork = true;
       hostAddress = "10.0.1.1";
       localAddress = "10.0.1.2";
@@ -91,12 +86,7 @@
         };
         networking.firewall.allowedTCPPorts = [ 80 443 8888 ];
       };
-      bindMounts = {
-        "/www" = {
-          hostPath = "/home/john/tmp";
-          isReadOnly = true;
-        };
-      };
+      bindMounts."/www".hostPath = "/home/john/tmp";
       ephemeral = true;
       autoStart = true;
       privateNetwork = true;
