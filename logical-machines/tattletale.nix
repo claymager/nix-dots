@@ -67,7 +67,7 @@
       ephemeral = true;
     };
 
-    kenz = {
+    kenz = onSubnet 2 {
       config = { config, pkgs, ... }: {
         security.acme = {
           email = "jmageriii@gmail.com";
@@ -109,12 +109,8 @@
       };
       bindMounts."/www".hostPath = "/home/john/tmp";
       ephemeral = true;
-      autoStart = true;
-      privateNetwork = true;
       forwardPorts =
         [ { hostPort = 80; } { hostPort = 443; } { hostPort = 8888; } ];
-      hostBridge = "br0";
-      localAddress = "192.168.5.2/24";
     };
   };
 
