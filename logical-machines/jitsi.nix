@@ -1,7 +1,7 @@
 { config, pkgs, ... }: {
   services.jitsi-meet = {
     enable = true;
-    hostName = "jitsi.lan";
+    hostName = "jitsi.tattletale.lan";
   };
   services.jitsi-videobridge.openFirewall = true;
   networking.firewall.allowedTCPPorts = [ 80 443 ];

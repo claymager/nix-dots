@@ -107,7 +107,7 @@
               serverAliases = [ "lisa.lan" "jellyfin.lan" ];
             };
             "notebook.tattletale.lan" = proxy kenz 3000;
-            "jitsi.lan".locations."/".proxyPass =
+            "jitsi.tattletale.lan".locations."/".proxyPass =
               "https://${ipv4 backend.jitsiCont}/";
             "kenz.lan" = forceSSL {
               root = "/www";
