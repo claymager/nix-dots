@@ -32,15 +32,6 @@
         autoStart = true;
       };
   in rec {
-    sverige = {
-      config = import ./sverige.nix;
-      enableTun = true;
-      privateNetwork = true;
-      hostAddress = "192.168.100.10";
-      localAddress = "192.168.100.11";
-      autoStart = false;
-    };
-
     jellyfin = onSubnet 5 {
       config = import ./jellyfin.nix;
       bindMounts."/media/movies".hostPath = "/home/john/videos";
