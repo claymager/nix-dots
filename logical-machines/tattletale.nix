@@ -110,8 +110,7 @@
           in {
             "tattletale.lan" = forceSSL {
               root = "/var/log/nginx";
-              locations."/jellyfin/".proxyPass =
-                "http://${ipv4 jellyfin}:8096/";
+              locations."/jellyfin/".proxyPass = "http://${ipv4 jellyfin}:8096/";
               locations."/apache/".proxyPass = "http://${ipv4 apacheEtc}/";
             };
             "apache.tattletale.lan" = proxy apacheEtc 80;
@@ -126,12 +125,12 @@
             };
           };
         };
-        networking.firewall.allowedTCPPorts = [ 80 443 8888 ];
+        networking.firewall.allowedTCPPorts = [ 80 443 3000 ];
       };
       bindMounts."/www".hostPath = "/home/john/tmp";
       ephemeral = true;
       forwardPorts =
-        [ { hostPort = 80; } { hostPort = 443; } { hostPort = 8888; } ];
+        [ { hostPort = 80; } { hostPort = 443; } { hostPort = 3000; } ];
     };
   };
 
