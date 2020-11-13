@@ -13,12 +13,13 @@
     inherit (lib) recursiveUpdate imap listToAttrs attrNames;
     inherit (builtins) toString;
 
-    subnet = "192.168.5.";
-    hostConfig = config;
+    host-hostName = config.networking.hostName;
 
     composeConfigs = conf: new:
       { config, pkgs, ... }@args:
       recursiveUpdate (conf args) (new args);
+
+    subnet = backend: imapAttrs onSubnet backend;
 
     imapAttrs = f: set:
       listToAttrs (imap (i: attr: {
@@ -27,22 +28,24 @@
       }) (attrNames set));
 
     onSubnet = i: name: vm:
-      let id = i + 3;
+      let
+        id = i + 3;
+        subnetMask = "192.168.5.";
       in recursiveUpdate vm {
         privateNetwork = true;
         config = composeConfigs vm.config ({ config, pkgs, ... }: {
-          networking.defaultGateway = "${subnet}1";
+          networking.defaultGateway = "${subnetMask}1";
           networking.extraHosts = ''
-            ${subnet}1  ${hostConfig.networking.hostName};
+            ${subnetMask}1  ${host-hostName};
           '';
         });
         hostBridge = "br0";
-        localAddress = subnet + toString id + "/24";
+        localAddress = subnetMask + toString id + "/24";
         localAddress6 = "fc00::" + toString id + "/7";
         autoStart = true;
       };
 
-    backend = imapAttrs onSubnet {
+    backend = subnet {
       jellyfin = {
         config = import ./jellyfin.nix;
         bindMounts."/media/movies".hostPath = "/home/john/videos";
