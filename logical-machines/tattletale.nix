@@ -10,15 +10,25 @@
     "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
   containers = let
+    inherit (lib) recursiveUpdate imap listToAttrs attrNames;
+    inherit (builtins) toString;
+
     subnet = "192.168.5.";
     hostConfig = config;
 
     composeConfigs = conf: new:
       { config, pkgs, ... }@args:
-      lib.recursiveUpdate (conf args) (new args);
+      recursiveUpdate (conf args) (new args);
 
-    onSubnet = id: vm:
-      lib.recursiveUpdate vm {
+    imapAttrs = f: set:
+      listToAttrs (imap (i: attr: {
+        name = attr;
+        value = f i attr set.${attr};
+      }) (attrNames set));
+
+    onSubnet = i: name: vm:
+      let id = i + 3;
+      in recursiveUpdate vm {
         privateNetwork = true;
         config = composeConfigs vm.config ({ config, pkgs, ... }: {
           networking.defaultGateway = "${subnet}1";
@@ -27,31 +37,31 @@
           '';
         });
         hostBridge = "br0";
-        localAddress = subnet + builtins.toString id + "/24";
-        localAddress6 = "fc00::" + builtins.toString id + "/7";
+        localAddress = subnet + toString id + "/24";
+        localAddress6 = "fc00::" + toString id + "/7";
         autoStart = true;
       };
 
-    jellyfin = onSubnet 5 {
-      config = import ./jellyfin.nix;
-      bindMounts."/media/movies".hostPath = "/home/john/videos";
-    };
+    backend = imapAttrs onSubnet {
+      jellyfin = {
+        config = import ./jellyfin.nix;
+        bindMounts."/media/movies".hostPath = "/home/john/videos";
+      };
 
-    apacheEtc = onSubnet 4 {
-      config = import ./apache.nix;
-      ephemeral = true;
-    };
+      apacheEtc = {
+        config = import ./apache.nix;
+        ephemeral = true;
+      };
 
-    jitsiCont = onSubnet 3 {
-      config = import ./jitsi.nix;
-      ephemeral = true;
+      jitsiCont = {
+        config = import ./jitsi.nix;
+        ephemeral = true;
+      };
     };
-
-    backend = { inherit jellyfin apacheEtc jitsiCont; };
 
   in backend // rec {
 
-    kenz = onSubnet 2 {
+    kenz = onSubnet (-1) "kenz" {
       config = { config, pkgs, ... }: {
         security.acme = {
           email = "jmageriii@gmail.com";
@@ -65,7 +75,7 @@
           recommendedOptimisation = true;
 
           virtualHosts = let
-            inherit (builtins) split head toString;
+            inherit (builtins) split head;
 
             forceSSL = vhost:
               vhost // {
@@ -82,17 +92,20 @@
           in {
             "tattletale.lan" = forceSSL {
               root = "/var/log/nginx";
-              locations."/jellyfin/".proxyPass = "http://${ipv4 backend.jellyfin}:8096/";
-              locations."/apache/".proxyPass = "http://${ipv4 backend.apacheEtc}/";
+              locations."/jellyfin/".proxyPass =
+                "http://${ipv4 backend.jellyfin}:8096/";
+              locations."/apache/".proxyPass =
+                "http://${ipv4 backend.apacheEtc}/";
             };
             "apache.tattletale.lan" = proxy backend.apacheEtc 80 // {
-              serverAliases = ["apache.lan"];
+              serverAliases = [ "apache.lan" ];
             };
             "jellyfin.tattletale.lan" = proxy backend.jellyfin 8096 // {
               serverAliases = [ "lisa.lan" "jellyfin.lan" ];
             };
             "notebook.tattletale.lan" = proxy kenz 3000;
-            "jitsi.lan".locations."/".proxyPass = "https://${ipv4 backend.jitsiCont}/";
+            "jitsi.lan".locations."/".proxyPass =
+              "https://${ipv4 backend.jitsiCont}/";
             "kenz.lan" = forceSSL {
               root = "/www";
               default = true;
