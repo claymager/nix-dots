@@ -31,44 +31,25 @@
         localAddress6 = "fc00::" + builtins.toString id + "/7";
         autoStart = true;
       };
-  in rec {
+
     jellyfin = onSubnet 5 {
       config = import ./jellyfin.nix;
       bindMounts."/media/movies".hostPath = "/home/john/videos";
     };
 
     apacheEtc = onSubnet 4 {
-      config = { config, pkgs, ... }: {
-        services.httpd = {
-          adminAddr = "jmageriii@gmail.com";
-          enable = true;
-          virtualHosts.default = {
-            servedDirs = [{
-              dir = "/";
-              urlPath = "/";
-            }];
-          };
-        };
-        networking.firewall.allowedTCPPorts = [ 80 443 ];
-      };
+      config = import ./apache.nix;
       ephemeral = true;
     };
 
     jitsiCont = onSubnet 3 {
-      config = { config, pkgs, ... }: {
-        services.jitsi-meet = {
-          enable = true;
-          hostName = "jitsi.lan";
-        };
-        services.jitsi-videobridge.openFirewall = true;
-        networking.firewall.allowedTCPPorts = [ 80 443 ];
-        security.acme = {
-          email = "jmageriii@gmail.com";
-          acceptTerms = true;
-        };
-      };
+      config = import ./jitsi.nix;
       ephemeral = true;
     };
+
+    backend = { inherit jellyfin apacheEtc jitsiCont; };
+
+  in backend // rec {
 
     kenz = onSubnet 2 {
       config = { config, pkgs, ... }: {
@@ -101,15 +82,17 @@
           in {
             "tattletale.lan" = forceSSL {
               root = "/var/log/nginx";
-              locations."/jellyfin/".proxyPass = "http://${ipv4 jellyfin}:8096/";
-              locations."/apache/".proxyPass = "http://${ipv4 apacheEtc}/";
+              locations."/jellyfin/".proxyPass = "http://${ipv4 backend.jellyfin}:8096/";
+              locations."/apache/".proxyPass = "http://${ipv4 backend.apacheEtc}/";
             };
-            "apache.tattletale.lan" = proxy apacheEtc 80;
-            "jellyfin.tattletale.lan" = proxy jellyfin 8096 // {
+            "apache.tattletale.lan" = proxy backend.apacheEtc 80 // {
+              serverAliases = ["apache.lan"];
+            };
+            "jellyfin.tattletale.lan" = proxy backend.jellyfin 8096 // {
               serverAliases = [ "lisa.lan" "jellyfin.lan" ];
             };
             "notebook.tattletale.lan" = proxy kenz 3000;
-            "jitsi.lan".locations."/".proxyPass = "https://${ipv4 jitsiCont}/";
+            "jitsi.lan".locations."/".proxyPass = "https://${ipv4 backend.jitsiCont}/";
             "kenz.lan" = forceSSL {
               root = "/www";
               default = true;
