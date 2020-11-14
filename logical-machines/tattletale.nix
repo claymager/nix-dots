@@ -82,7 +82,7 @@
 
             forceSSL = vhost:
               vhost // {
-                addSSL = true;
+                forceSSL = true;
                 enableACME = true;
               };
 
@@ -107,8 +107,9 @@
               serverAliases = [ "lisa.lan" "jellyfin.lan" ];
             };
             "notebook.tattletale.lan" = proxy kenz 3000;
-            "jitsi.tattletale.lan".locations."/".proxyPass =
-              "https://${ipv4 backend.jitsiCont}/";
+            "jitsi.tattletale.lan" = forceSSL {
+              locations."/".proxyPass = "https://${ipv4 backend.jitsiCont}/";
+            };
             "kenz.lan" = forceSSL {
               root = "/www";
               default = true;
