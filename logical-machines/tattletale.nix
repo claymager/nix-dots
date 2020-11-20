@@ -133,14 +133,14 @@
 
   networking = {
     firewall.allowedTCPPorts = [
-      5432 # Postgres
       80
-      # 443
-      27017 # MongoDB
-      3000
-      # 8888 # jupyter notebook
+      443
+      # 3000 # Grafana
+      # 5432 # Postgres
       # 8096 # jellyfin
-      # 32400   # Plex
+      # 8888 # jupyter notebook
+      # 27017 # MongoDB
+      # 32400 # Plex
     ];
 
     bridges.br0.interfaces = [ ];
