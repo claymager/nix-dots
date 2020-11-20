@@ -9,6 +9,12 @@
   users.extraUsers.john.hashedPassword =
     "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
+  security.sudo.extraRules = [
+    { groups = [ "wheel" ];
+      commands = [ { command = "${pkgs.ddcutil}/bin/ddcutil"; options = [ "NOPASSWD" ]; } ];
+    }
+  ];
+
   containers = let
     inherit (lib) recursiveUpdate imap listToAttrs attrNames;
     inherit (builtins) toString;
