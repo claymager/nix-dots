@@ -125,11 +125,7 @@
     };
   };
 
-  hardware = {
-    opengl.driSupport32Bit = true;
-    pulseaudio.support32Bit = true;
-  };
-  environment.systemPackages = [ pkgs.steam ];
+  programs.steam.enable = true;
 
   networking = {
     firewall.allowedTCPPorts = [
