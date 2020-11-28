@@ -124,7 +124,7 @@
         };
         networking.firewall.allowedTCPPorts = [ 80 443 3000 ];
       };
-      bindMounts."/www".hostPath = "/home/john/tmp";
+      bindMounts."/www".hostPath = "/home/john/public/kenz.lan/";
       ephemeral = true;
       forwardPorts =
         [ { hostPort = 80; } { hostPort = 443; } { hostPort = 3000; } ];
