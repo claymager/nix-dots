@@ -36,6 +36,7 @@
   environment.systemPackages = with pkgs;
     [
       ddcutil # software control of vga monitor
+      pentablet-driver
     ];
   programs.fish.interactiveShellInit = ''
     function bright
