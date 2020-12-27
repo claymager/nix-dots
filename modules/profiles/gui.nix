@@ -34,7 +34,7 @@ with lib;
       xorg.xmodmap
     ];
 
-    fonts.enableFontDir = true;
+    fonts.fontDir.enable = true;
     fonts.fonts = with pkgs; [
       #fantasque-sans-mono
       fira-code
