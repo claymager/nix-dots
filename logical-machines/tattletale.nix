@@ -70,6 +70,16 @@
 
   in backend // rec {
 
+    sverige = {
+      config = import ./sverige.nix;
+      enableTun = true;
+      privateNetwork = true;
+      hostAddress = "192.168.100.10";
+      localAddress = "192.168.100.11";
+      autoStart = true;
+    };
+
+
     kenz = onSubnet (-1) "kenz" {
       config = { config, pkgs, ... }: {
         security.acme = {

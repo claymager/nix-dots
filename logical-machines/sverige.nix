@@ -12,6 +12,10 @@ in
 
   services = {
     openssh.forwardX11 = true;
+    pia = {
+      enable = true;
+      authFile = "${./..}/private/pia.conf";
+    };
   };
 
   environment.systemPackages = with pkgs; [ rtorrent chromium ];
