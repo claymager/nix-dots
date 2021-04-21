@@ -12,9 +12,6 @@ with lib; {
         };
         shellAliases = {
           watch = "watch -c";
-          ip = "ip -c=always";
-          l = "ls -XlhGgo --color=auto";
-          t = "tree --filelimit 30 -ClL 3";
         };
       };
 
