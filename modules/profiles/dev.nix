@@ -29,7 +29,7 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs;
       [
-        nixops
+        # nixops
         vim
         neovim-remote
         ctags
