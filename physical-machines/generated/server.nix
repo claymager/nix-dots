@@ -24,39 +24,44 @@
     fsType = "tmpfs";
   };
 
-#  fileSystems."/home/john/lab" = {
-#    device = "npool/lab";
-#    fsType = "zfs";
-#  };
+  #  fileSystems."/home/john/lab" = {
+  #    device = "npool/lab";
+  #    fsType = "zfs";
+  #  };
 
-#  fileSystems."/" =
-#    { device = "rpool/root/nixos";
-#      fsType = "zfs";
-#    };
+  #  fileSystems."/" =
+  #    { device = "rpool/root/nixos";
+  #      fsType = "zfs";
+  #    };
 
 
   fileSystems."/" =
-    { device = "npool/root";
+    {
+      device = "npool/root";
       fsType = "zfs";
     };
 
   fileSystems."/home" =
-    { device = "npool/home";
+    {
+      device = "npool/home";
       fsType = "zfs";
     };
 
   fileSystems."/var" =
-    { device = "npool/var";
+    {
+      device = "npool/var";
       fsType = "zfs";
     };
 
   fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/b4df8f6a-f05f-4811-a5ea-90c675e2d980";
+    {
+      device = "/dev/disk/by-uuid/b4df8f6a-f05f-4811-a5ea-90c675e2d980";
       fsType = "ext4";
     };
 
   fileSystems."/home/john/lab" =
-    { device = "/dev/disk/by-uuid/dd7e31f5-ef3c-4f41-9e3a-58a27986de9b";
+    {
+      device = "/dev/disk/by-uuid/dd7e31f5-ef3c-4f41-9e3a-58a27986de9b";
       fsType = "ext4";
     };
 
