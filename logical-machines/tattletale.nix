@@ -25,8 +25,6 @@ secrets: { config, pkgs, lib, ... }:
         { config, pkgs, ... }@args:
         recursiveUpdate (conf args) (new args);
 
-      subnet = backend: imapAttrs onSubnet backend;
-
       imapAttrs = f: set:
         listToAttrs (imap
           (i: attr: {
@@ -54,7 +52,7 @@ secrets: { config, pkgs, lib, ... }:
           autoStart = true;
         };
 
-      backend = subnet {
+      backend = imapAttrs onSubnet {
         jellyfin = {
           config = import ./jellyfin.nix;
           bindMounts."/media/movies".hostPath = "/home/john/videos";
@@ -83,63 +81,8 @@ secrets: { config, pkgs, lib, ... }:
         autoStart = true;
       };
 
-
       kenz = onSubnet (-1) "kenz" {
-        config = { config, pkgs, ... }: {
-          security.acme = {
-            email = "jmageriii@gmail.com";
-            acceptTerms = true;
-          };
-          services.nginx = {
-            enable = true;
-            statusPage = true;
-            recommendedProxySettings = true;
-            recommendedGzipSettings = true;
-            recommendedOptimisation = true;
-
-            virtualHosts =
-              let
-                inherit (builtins) split head;
-
-                forceSSL = vhost:
-                  vhost // {
-                    forceSSL = true;
-                    enableACME = true;
-                  };
-
-                ipv4 = vm: head (split "/" vm.localAddress);
-
-                proxy = vm: port:
-                  forceSSL {
-                    locations."/".proxyPass = "http://${ipv4 vm}:${toString port}/";
-                  };
-              in
-              {
-                "tattletale.lan" = forceSSL {
-                  root = "/var/log/nginx";
-                  locations."/jellyfin/".proxyPass =
-                    "http://${ipv4 backend.jellyfin}:8096/";
-                  locations."/apache/".proxyPass =
-                    "http://${ipv4 backend.apacheEtc}/";
-                };
-                "apache.tattletale.lan" = proxy backend.apacheEtc 80 // {
-                  serverAliases = [ "apache.lan" ];
-                };
-                "jellyfin.tattletale.lan" = proxy backend.jellyfin 8096 // {
-                  serverAliases = [ "lisa.lan" "jellyfin.lan" ];
-                };
-                "notebook.tattletale.lan" = proxy kenz 3000;
-                "jitsi.tattletale.lan" = forceSSL {
-                  locations."/".proxyPass = "https://${ipv4 backend.jitsiCont}/";
-                };
-                "kenz.lan" = forceSSL {
-                  root = "/www";
-                  default = true;
-                };
-              };
-          };
-          networking.firewall.allowedTCPPorts = [ 80 443 3000 ];
-        };
+        config = import ./kenz.nix backend;
         bindMounts."/www".hostPath = "/home/john/public/kenz.lan/";
         ephemeral = true;
         forwardPorts =
@@ -150,6 +93,7 @@ secrets: { config, pkgs, lib, ... }:
   programs.steam.enable = true;
 
   networking = {
+    hostName = "tattletale";
     firewall.allowedTCPPorts = [
       80
       443
@@ -180,6 +124,7 @@ secrets: { config, pkgs, lib, ... }:
       }];
     };
 
+    # Some IOT things on the network keep pinging this port
     firewall.extraCommands = ''
       ip46tables -A nixos-fw -p tcp -m tcp --tcp-flags SYN,ACK,FIN,RST SYN -m length --length 60 --dport 32469 -j nixos-fw-refuse
     '';
@@ -197,8 +142,7 @@ secrets: { config, pkgs, lib, ... }:
     };
 
     postgresql = {
-      enable = false;
-      package = pkgs.postgresql_10;
+      enable = true;
       enableTCPIP = true;
       authentication = pkgs.lib.mkOverride 10 ''
         local all all trust
@@ -211,10 +155,6 @@ secrets: { config, pkgs, lib, ... }:
     openssh = {
       permitRootLogin = "no";
       passwordAuthentication = false;
-      # extraConfig = ''
-      #   Match Address ::1
-      #           PermitRootLogin without-password
-      # '';
     };
   };
 
