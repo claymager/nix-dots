@@ -4,7 +4,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./generated/laptop.nix <nixos-hardware/dell/xps/15-9550> ];
+  imports = [ ./generated/laptop.nix ];
 
   boot.kernelParams = [ "acpi_rev_override" ];
 

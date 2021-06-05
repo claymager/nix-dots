@@ -13,7 +13,7 @@ end
 
 function nixos-rebuild
     set cmd (which nixos-rebuild)
-    sudo $cmd $argv
+    sudo $cmd --flake /etc/nixos#tattletale $argv
     unlink result
 end
 

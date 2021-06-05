@@ -24,6 +24,8 @@ let
 
       installPhase = ''
         mkdir -p "$out/uuids"
+        find . \! -name 'sweden*' -name '*.ovpn' -exec rm {} \;
+
         ls *.ovpn | while read FILE; do
           uuidgen --md5 -n @url -N "$FILE" > "$out/uuids/$FILE"
         done
@@ -48,7 +50,8 @@ let
       '';
     };
 
-in {
+in
+{
   options.services.pia = {
     enable = mkEnableOption "private internet access vpn";
     authFile = mkOption {
@@ -63,19 +66,24 @@ in {
 
     # Configure all our servers
     # Use with `sudo systemctl start openvpn-us-east`
-    services.openvpn.servers = let
-      vpn_str = with strings;
-        file:
-        removeSuffix ".ovpn" (toLower (replaceStrings [ " " ] [ "-" ] file));
-    in foldl' (init: file:
-      init // {
-        "${vpn_str file}" = {
-          config = readFile "${pia-config cfg.authFile}/config/${file}";
-          autoStart = false;
-          up =
-            "echo nameserver $nameserver | ${pkgs.openresolv}/sbin/resolvconf -m 0 -a $dev";
-          down = "${pkgs.openresolv}/sbin/resolvconf -d $dev";
-        };
-      }) { } (attrNames (readDir "${pia-config cfg.authFile}/config"));
+    services.openvpn.servers =
+      let
+        vpn_str = with strings;
+          file:
+          removeSuffix ".ovpn" (toLower (replaceStrings [ " " ] [ "-" ] file));
+      in
+      foldl'
+        (init: file:
+          init // {
+            "${vpn_str file}" = {
+              config = readFile "${pia-config cfg.authFile}/config/${file}";
+              autoStart = false;
+              up =
+                "echo nameserver $nameserver | ${pkgs.openresolv}/sbin/resolvconf -m 0 -a $dev";
+              down = "${pkgs.openresolv}/sbin/resolvconf -d $dev";
+            };
+          })
+        { }
+        (attrNames (readDir "${pia-config cfg.authFile}/config"));
   };
 }

@@ -1,6 +1,7 @@
-{ config, pkgs, ... }:
+piaAuth: { config, pkgs, ... }:
 
 let
+  piaConf = pkgs.writeText "pia" piaAuth;
   nameServer = "209.222.18.218";
   nameServerAlt = "209.222.18.222";
   vpnServer = "45.12.220.0/24";
@@ -14,7 +15,7 @@ in
     openssh.forwardX11 = true;
     pia = {
       enable = true;
-      authFile = "${./..}/private/pia.conf";
+      authFile = "${piaConf}";
     };
   };
 

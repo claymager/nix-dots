@@ -12,7 +12,8 @@ let
     # };
 
   };
-in {
+in
+{
   fray = virt // { networking.hostName = "fray-v"; };
   tattletale = virt // { networking.hostName = "tattle-v"; };
 }

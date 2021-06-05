@@ -1,0 +1,56 @@
+{
+  "nodes": {
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1622521809,
+        "narHash": "sha256-7XcqrtrHDeaasKzg/ruroLsC2fb6Fi3aenCrv1+xVLk=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "b2186d6c3cdc58fb3a8def0f608bcae61138cc6f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1623580589,
+        "narHash": "sha256-Ayp1cjXpwFCkAiWUE46rj9APTltsiEBdIs2+cj+U7+c=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "fa0326ce5233f7d592271df52c9d0812bec47b84",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixos-hardware": "nixos-hardware",
+        "nixpkgs": "nixpkgs",
+        "secrets": "secrets"
+      }
+    },
+    "secrets": {
+      "locked": {
+        "narHash": "sha256-OD6RxoYd4KFmimh2DLltH6A2sl8UxgSnZGyWwGkD/gs=",
+        "path": "/etc/nixos/private",
+        "type": "path"
+      },
+      "original": {
+        "path": "/etc/nixos/private",
+        "type": "path"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

@@ -2,7 +2,8 @@ let
 
   myHosts = (import ./private/secrets.nix).hosts;
 
-in {
+in
+{
 
   fray = {
     deployment.targetHost = "192.168.1.202";

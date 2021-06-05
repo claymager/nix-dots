@@ -10,15 +10,19 @@ let
   pythonPackage = pkgs.python3.withPackages
     (ps: with ps; [ python-language-server pyls-mypy pyls-isort pyls-black ]);
 
-  haskellPackages = let
-    all-hies = import
-      (fetchTarball "https://github.com/infinisil/all-hies/tarball/master") { };
-  in [
-    (all-hies.selection { selector = p: { inherit (p) ghc864; }; })
-    pkgs.ghc
-  ];
+  haskellPackages =
+    let
+      all-hies = import
+        (fetchTarball "https://github.com/infinisil/all-hies/tarball/master")
+        { };
+    in
+    [
+      (all-hies.selection { selector = p: { inherit (p) ghc864; }; })
+      pkgs.ghc
+    ];
 
-in {
+in
+{
   options.profiles.dev = {
     enable = mkEnableOption "development environment";
     python = mkEnableOption "python ide env";

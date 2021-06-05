@@ -1,8 +1,6 @@
-{ config, pkgs, lib, ... }:
+secrets: { config, pkgs, lib, ... }:
 
 {
-  imports = [ ../modules/common.nix ];
-
   profiles.gui.enable = true;
   profiles.dev.enable = true;
 
@@ -10,136 +8,144 @@
     "$5$CbQyg4oESLBLL8gR$YcXU4JKZEiHiZQkDZN64ssZyWCW03m6W/wC6ET2MVk/";
 
   security.sudo.extraRules = [
-    { groups = [ "wheel" ];
-      commands = [ { command = "${pkgs.ddcutil}/bin/ddcutil"; options = [ "NOPASSWD" ]; } ];
+    {
+      groups = [ "wheel" ];
+      commands = [{ command = "${pkgs.ddcutil}/bin/ddcutil"; options = [ "NOPASSWD" ]; }];
     }
   ];
 
-  containers = let
-    inherit (lib) recursiveUpdate imap listToAttrs attrNames;
-    inherit (builtins) toString;
+  containers =
+    let
+      inherit (lib) recursiveUpdate imap listToAttrs attrNames;
+      inherit (builtins) toString;
 
-    host-hostName = config.networking.hostName;
+      host-hostName = config.networking.hostName;
 
-    composeConfigs = conf: new:
-      { config, pkgs, ... }@args:
-      recursiveUpdate (conf args) (new args);
+      composeConfigs = conf: new:
+        { config, pkgs, ... }@args:
+        recursiveUpdate (conf args) (new args);
 
-    subnet = backend: imapAttrs onSubnet backend;
+      subnet = backend: imapAttrs onSubnet backend;
 
-    imapAttrs = f: set:
-      listToAttrs (imap (i: attr: {
-        name = attr;
-        value = f i attr set.${attr};
-      }) (attrNames set));
+      imapAttrs = f: set:
+        listToAttrs (imap
+          (i: attr: {
+            name = attr;
+            value = f i attr set.${attr};
+          })
+          (attrNames set));
 
-    onSubnet = i: name: vm:
-      let
-        id = i + 3;
-        subnetMask = "192.168.5.";
-      in recursiveUpdate vm {
+      onSubnet = i: name: vm:
+        let
+          id = i + 3;
+          subnetMask = "192.168.5.";
+        in
+        recursiveUpdate vm {
+          privateNetwork = true;
+          config = composeConfigs vm.config ({ config, pkgs, ... }: {
+            networking.defaultGateway = "${subnetMask}1";
+            networking.extraHosts = ''
+              ${subnetMask}1  ${host-hostName};
+            '';
+          });
+          hostBridge = "br0";
+          localAddress = subnetMask + toString id + "/24";
+          localAddress6 = "fc00::" + toString id + "/7";
+          autoStart = true;
+        };
+
+      backend = subnet {
+        jellyfin = {
+          config = import ./jellyfin.nix;
+          bindMounts."/media/movies".hostPath = "/home/john/videos";
+        };
+
+        apacheEtc = {
+          config = import ./apache.nix;
+          ephemeral = true;
+        };
+
+        jitsiCont = {
+          config = import ./jitsi.nix;
+          ephemeral = true;
+        };
+      };
+
+    in
+    backend // rec {
+
+      sverige = {
+        config = import ./sverige.nix secrets.piaAuth;
+        enableTun = true;
         privateNetwork = true;
-        config = composeConfigs vm.config ({ config, pkgs, ... }: {
-          networking.defaultGateway = "${subnetMask}1";
-          networking.extraHosts = ''
-            ${subnetMask}1  ${host-hostName};
-          '';
-        });
-        hostBridge = "br0";
-        localAddress = subnetMask + toString id + "/24";
-        localAddress6 = "fc00::" + toString id + "/7";
+        hostAddress = "192.168.100.10";
+        localAddress = "192.168.100.11";
         autoStart = true;
       };
 
-    backend = subnet {
-      jellyfin = {
-        config = import ./jellyfin.nix;
-        bindMounts."/media/movies".hostPath = "/home/john/videos";
-      };
 
-      apacheEtc = {
-        config = import ./apache.nix;
-        ephemeral = true;
-      };
-
-      jitsiCont = {
-        config = import ./jitsi.nix;
-        ephemeral = true;
-      };
-    };
-
-  in backend // rec {
-
-    sverige = {
-      config = import ./sverige.nix;
-      enableTun = true;
-      privateNetwork = true;
-      hostAddress = "192.168.100.10";
-      localAddress = "192.168.100.11";
-      autoStart = true;
-    };
-
-
-    kenz = onSubnet (-1) "kenz" {
-      config = { config, pkgs, ... }: {
-        security.acme = {
-          email = "jmageriii@gmail.com";
-          acceptTerms = true;
-        };
-        services.nginx = {
-          enable = true;
-          statusPage = true;
-          recommendedProxySettings = true;
-          recommendedGzipSettings = true;
-          recommendedOptimisation = true;
-
-          virtualHosts = let
-            inherit (builtins) split head;
-
-            forceSSL = vhost:
-              vhost // {
-                forceSSL = true;
-                enableACME = true;
-              };
-
-            ipv4 = vm: head (split "/" vm.localAddress);
-
-            proxy = vm: port:
-              forceSSL {
-                locations."/".proxyPass = "http://${ipv4 vm}:${toString port}/";
-              };
-          in {
-            "tattletale.lan" = forceSSL {
-              root = "/var/log/nginx";
-              locations."/jellyfin/".proxyPass =
-                "http://${ipv4 backend.jellyfin}:8096/";
-              locations."/apache/".proxyPass =
-                "http://${ipv4 backend.apacheEtc}/";
-            };
-            "apache.tattletale.lan" = proxy backend.apacheEtc 80 // {
-              serverAliases = [ "apache.lan" ];
-            };
-            "jellyfin.tattletale.lan" = proxy backend.jellyfin 8096 // {
-              serverAliases = [ "lisa.lan" "jellyfin.lan" ];
-            };
-            "notebook.tattletale.lan" = proxy kenz 3000;
-            "jitsi.tattletale.lan" = forceSSL {
-              locations."/".proxyPass = "https://${ipv4 backend.jitsiCont}/";
-            };
-            "kenz.lan" = forceSSL {
-              root = "/www";
-              default = true;
-            };
+      kenz = onSubnet (-1) "kenz" {
+        config = { config, pkgs, ... }: {
+          security.acme = {
+            email = "jmageriii@gmail.com";
+            acceptTerms = true;
           };
+          services.nginx = {
+            enable = true;
+            statusPage = true;
+            recommendedProxySettings = true;
+            recommendedGzipSettings = true;
+            recommendedOptimisation = true;
+
+            virtualHosts =
+              let
+                inherit (builtins) split head;
+
+                forceSSL = vhost:
+                  vhost // {
+                    forceSSL = true;
+                    enableACME = true;
+                  };
+
+                ipv4 = vm: head (split "/" vm.localAddress);
+
+                proxy = vm: port:
+                  forceSSL {
+                    locations."/".proxyPass = "http://${ipv4 vm}:${toString port}/";
+                  };
+              in
+              {
+                "tattletale.lan" = forceSSL {
+                  root = "/var/log/nginx";
+                  locations."/jellyfin/".proxyPass =
+                    "http://${ipv4 backend.jellyfin}:8096/";
+                  locations."/apache/".proxyPass =
+                    "http://${ipv4 backend.apacheEtc}/";
+                };
+                "apache.tattletale.lan" = proxy backend.apacheEtc 80 // {
+                  serverAliases = [ "apache.lan" ];
+                };
+                "jellyfin.tattletale.lan" = proxy backend.jellyfin 8096 // {
+                  serverAliases = [ "lisa.lan" "jellyfin.lan" ];
+                };
+                "notebook.tattletale.lan" = proxy kenz 3000;
+                "jitsi.tattletale.lan" = forceSSL {
+                  locations."/".proxyPass = "https://${ipv4 backend.jitsiCont}/";
+                };
+                "kenz.lan" = forceSSL {
+                  root = "/www";
+                  default = true;
+                };
+              };
+          };
+          networking.firewall.allowedTCPPorts = [ 80 443 3000 ];
         };
-        networking.firewall.allowedTCPPorts = [ 80 443 3000 ];
+        bindMounts."/www".hostPath = "/home/john/public/kenz.lan/";
+        ephemeral = true;
+        forwardPorts =
+          [{ hostPort = 80; } { hostPort = 443; } { hostPort = 3000; }];
       };
-      bindMounts."/www".hostPath = "/home/john/public/kenz.lan/";
-      ephemeral = true;
-      forwardPorts =
-        [ { hostPort = 80; } { hostPort = 443; } { hostPort = 3000; } ];
     };
-  };
 
   programs.steam.enable = true;
 
@@ -213,5 +219,5 @@
   };
 
   virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "john" ];
+
 }

@@ -6,8 +6,6 @@
 {
   imports = [
     ./generated/server.nix
-    <nixos-hardware/common/cpu/amd>
-    <nixos-hardware/common/pc/ssd>
   ];
 
   boot = {
@@ -28,8 +26,8 @@
 
   networking.hostId = "f985e230";
   services.xserver.screenSection = ''
-        Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
-    '';
+    Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
+  '';
   hardware.bluetooth.enable = true;
 
   environment.systemPackages = with pkgs;
