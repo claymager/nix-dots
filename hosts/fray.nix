@@ -1,11 +1,6 @@
-# Edit this configuration file to define what should be installed on
-# this specific machine.
-
 { config, pkgs, ... }:
 
 {
-  imports = [ ../modules/common.nix ];
-
   profiles.dev.enable = true;
   profiles.gui.enable = true;
 
