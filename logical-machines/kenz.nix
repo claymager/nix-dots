@@ -44,9 +44,9 @@ backend: { config, pkgs, ... }: {
         "notebook.tattletale.lan" = forceSSL {
           locations."/".proxyPass = "https://localhost:3000/";
         };
-        "jitsi.tattletale.lan" = forceSSL {
-          locations."/".proxyPass = "https://${ipv4 backend.jitsiCont}/";
-        };
+        # "jitsi.tattletale.lan" = forceSSL {
+        #   locations."/".proxyPass = "https://${ipv4 backend.jitsiCont}/";
+        # };
         "kenz.lan" = forceSSL {
           root = "/www";
           default = true;

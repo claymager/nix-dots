@@ -63,10 +63,11 @@ secrets: { config, pkgs, lib, ... }:
           ephemeral = true;
         };
 
-        jitsiCont = {
-          config = import ./jitsi.nix;
-          ephemeral = true;
-        };
+        # jitsiCont = {
+        #   config = import ./jitsi.nix;
+        #   ephemeral = true;
+        # };
+
       };
 
     in
