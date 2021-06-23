@@ -1,6 +1,6 @@
 {
   network.description = "home network";
 
-  fray = import ./logical-machines/fray.nix;
-  tattletale = import ./logical-machines/tattletale.nix;
+  fray = import ./hosts/fray.nix;
+  tattletale = import ./hosts/tattletale.nix;
 }

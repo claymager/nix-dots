@@ -10,11 +10,11 @@
         server-modules = [
           nixos-hardware.nixosModules.common-cpu-amd
           nixos-hardware.nixosModules.common-pc-ssd
-          (import ./physical-machines/server.nix)
+          (import ./metal/server.nix)
         ];
         laptop-modules = [
           nixos-hardware.nixosModules.dell-xps-15-9550-nvidia
-          (import ./physical-machines/laptop.nix)
+          (import ./metal/laptop.nix)
         ];
       in
       {
@@ -23,7 +23,7 @@
           modules = server-modules ++ [
             secrets.nixosModule
             basic
-            (import ./logical-machines/tattletale.nix secrets.passThru)
+            (import ./hosts/tattletale.nix secrets.passThru)
           ];
         };
         fray = nixpkgs.lib.nixosSystem {
@@ -31,7 +31,7 @@
           modules = [
             secrets.nixosModule
             basic
-            (import ./logical-machines/fray.nix)
+            (import ./hosts/fray.nix)
           ];
         };
       };

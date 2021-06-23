@@ -7,7 +7,7 @@ in
 
   fray = {
     deployment.targetHost = "192.168.1.202";
-    imports = [ ./physical-machines/laptop.nix ];
+    imports = [ ./metal/laptop.nix ];
     networking.extraHosts = myHosts;
     # deployment.targetHost = "::1";
     # deployment.targetPort = 22922;
@@ -15,7 +15,7 @@ in
 
   tattletale = {
     deployment.targetHost = "::1";
-    imports = [ ./physical-machines/server.nix ];
+    imports = [ ./metal/server.nix ];
     networking.extraHosts = myHosts;
   };
 
