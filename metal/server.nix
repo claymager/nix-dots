@@ -29,11 +29,14 @@
     Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
   '';
   hardware.bluetooth.enable = true;
+  hardware.opentabletdriver = {
+    daemon.enable = true;
+    enable = true;
+  };
 
   environment.systemPackages = with pkgs;
     [
       ddcutil # software control of vga monitor
-      pentablet-driver
     ];
   programs.fish.interactiveShellInit = ''
     function bright
