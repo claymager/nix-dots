@@ -20,6 +20,7 @@
   environment.systemPackages = with pkgs; [
     # bat
     # git
+    lsof
     htop
     # tree
     wget
