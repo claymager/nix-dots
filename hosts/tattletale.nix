@@ -160,5 +160,8 @@ secrets: { config, pkgs, lib, ... }:
   };
 
   virtualisation.virtualbox.host.enable = true;
+  virtualisation.libvirtd.enable = true;
+  users.extraUsers.john.extraGroups = [ "libvirtd" ];
+  networking.firewall.checkReversePath = false;
 
 }

@@ -17,7 +17,7 @@
           (import ./metal/laptop.nix)
         ];
       in
-      {
+      rec {
         tattletale = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = server-modules ++ [
@@ -35,5 +35,8 @@
           ];
         };
       };
+    nixopsConfigurations = {
+      network.storage.memory  = {};
+    };
   };
 }
