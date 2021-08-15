@@ -14,7 +14,6 @@ end
 function nixos-rebuild
     set cmd (which nixos-rebuild)
     sudo $cmd --flake /etc/nixos $argv
-    unlink result
 end
 
 function nix-shell
