@@ -8,6 +8,8 @@
 
   boot.kernelParams = [ "acpi_rev_override" ];
 
+  networking.networkmanager.enable = true;
+
   hardware = {
     bluetooth.enable = true;
     bumblebee = {

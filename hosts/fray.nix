@@ -7,7 +7,7 @@
   users.extraUsers.john.hashedPassword =
     "$5$QIlpPxYhSVGcTd8k$ISN3TP3r1iLag2YB1Tw3vQ2oTrC8It.wcxUmplfAM94";
 
-  networking.networkmanager.enable = true;
+  environment.systemPackages = [ pkgs.ripgrep ];
 
   services = {
     mongodb.enable = true;
