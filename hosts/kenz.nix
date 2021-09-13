@@ -23,7 +23,7 @@ backend: { config, pkgs, ... }: {
         ipv4 = vm: head (split "/" vm.localAddress);
 
         proxy = vm: port:
-          forceSSL {
+          {
             locations."/".proxyPass = "http://${ipv4 vm}:${toString port}/";
           };
       in
@@ -41,13 +41,10 @@ backend: { config, pkgs, ... }: {
         "jellyfin.tattletale.lan" = proxy backend.jellyfin 8096 // {
           serverAliases = [ "lisa.lan" "jellyfin.lan" ];
         };
-        "notebook.tattletale.lan" = forceSSL {
+        "notebook.tattletale.lan" = {
           locations."/".proxyPass = "https://localhost:3000/";
         };
-        # "jitsi.tattletale.lan" = forceSSL {
-        #   locations."/".proxyPass = "https://${ipv4 backend.jitsiCont}/";
-        # };
-        "kenz.lan" = forceSSL {
+        "kenz.lan" = {
           root = "/www";
           default = true;
         };
