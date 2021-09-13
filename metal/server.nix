@@ -29,6 +29,7 @@
     Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
   '';
   hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
   hardware.opentabletdriver = {
     daemon.enable = true;
     enable = true;
