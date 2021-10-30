@@ -36,7 +36,7 @@
         };
       };
     nixopsConfigurations = {
-      network.storage.memory  = {};
+      network.storage.memory = { };
     };
   };
 }
