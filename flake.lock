@@ -2,11 +2,11 @@
   "nodes": {
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1629975021,
-        "narHash": "sha256-+z4pK5yvoIKAIPGnyxt7I7Y9yX72HFP2krppGENpn6I=",
+        "lastModified": 1635449388,
+        "narHash": "sha256-i7hMiAgpRTGsMPTQKuNCDfW/ftQ+g9N6iaMj+RN6yws=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "342048461da7fc743e588ee744080c045613a226",
+        "rev": "518b9c2159e7d4b7696ee18b8828f9086012923b",
         "type": "github"
       },
       "original": {
@@ -18,16 +18,15 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1631295156,
-        "narHash": "sha256-jIriDkYUU09njpjvpRiS2/Yy+iKpmalCGJ2HnC41ZSQ=",
+        "lastModified": 1635605688,
+        "narHash": "sha256-/u5bU6ClHis/eaKWA90oueXktYyByPPzsl4UbEtBnLo=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bbbe2b35f736d039884e082ecc6d6e631e126029",
+        "rev": "2471741df0104653f19b59e15fa6f45f35835359",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -41,13 +40,14 @@
     },
     "secrets": {
       "locked": {
-        "narHash": "sha256-g1DTx/i+v6vmSLVyoIQJe/+GsoMIow+dc3bnuHX9hG0=",
-        "path": "/etc/nixos/private",
-        "type": "path"
+        "lastModified": 1622914566,
+        "narHash": "sha256-Fh743rdZPqxf5ar+KjBmjsXVAPpb2IpMWBIQZ053zVs=",
+        "type": "git",
+        "url": "file:///etc/nixos/private"
       },
       "original": {
-        "path": "/etc/nixos/private",
-        "type": "path"
+        "type": "git",
+        "url": "file:///etc/nixos/private"
       }
     }
   },
