@@ -5,7 +5,7 @@
 { config, pkgs, lib, ... }:
 
 {
-  imports = (import ../modules/modules-list.nix);
+  imports = (import ../modules/modules-list.nix) ++ [ ./../cachix.nix ];
 
   profiles.fish.enable = true;
 
@@ -42,6 +42,13 @@
       keep-derivations = true
       experimental-features = nix-command flakes ca-derivations ca-references
     '';
+    # Binary cache for Haskell.nix
+    binaryCachePublicKeys = [
+      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+    ];
+    binaryCaches = [
+      "https://hydra.iohk.io"
+    ];
   };
 
   users = {
